@@ -380,4 +380,3 @@ vwLunas.id_booking = tbCheckOut.id_booking
 INNER JOIN tbl_status_checkout tbStatCheckout ON
 tbStatCheckout.id_status_checkout = tbCheckOut.id_status_checkout
 WHERE tbCheckOut.id_status_checkout = "SC1";
-
