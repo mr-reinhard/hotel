@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Danau Indah Utama</title>
+    <title>Hotel Danau Indah Utama</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="asset/image/logo_din.png">
@@ -20,8 +20,46 @@
     <link rel="stylesheet" href="asset/css/jquery.timepicker.css">
     <link rel="stylesheet" href="asset/css/flaticon.css">
     <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="asset/css/fontawesome.css">
+    <script src="asset/jsp/notifikasi.js"></script>
+    <script src="asset/js/jquery.min.js"></script>
+    <script src="asset/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script
         nonce="fa6d9f5f-ced4-4efc-911f-25a69691776a">(function (w, d) { !function (j, k, l, m) { j[l] = j[l] || {}; j[l].executed = []; j.zaraz = { deferred: [], listeners: [] }; j.zaraz.q = []; j.zaraz._f = function (n) { return async function () { var o = Array.prototype.slice.call(arguments); j.zaraz.q.push({ m: n, a: o }) } }; for (const p of ["track", "set", "debug"]) j.zaraz[p] = j.zaraz._f(p); j.zaraz.init = () => { var q = k.getElementsByTagName(m)[0], r = k.createElement(m), s = k.getElementsByTagName("title")[0]; s && (j[l].t = k.getElementsByTagName("title")[0].text); j[l].x = Math.random(); j[l].w = j.screen.width; j[l].h = j.screen.height; j[l].j = j.innerHeight; j[l].e = j.innerWidth; j[l].l = j.location.href; j[l].r = k.referrer; j[l].k = j.screen.colorDepth; j[l].n = k.characterSet; j[l].o = (new Date).getTimezoneOffset(); if (j.dataLayer) for (const w of Object.entries(Object.entries(dataLayer).reduce(((x, y) => ({ ...x[1], ...y[1] })), {}))) zaraz.set(w[0], w[1], { scope: "page" }); j[l].q = []; for (; j.zaraz.q.length;) { const z = j.zaraz.q.shift(); j[l].q.push(z) } r.defer = !0; for (const A of [localStorage, sessionStorage]) Object.keys(A || {}).filter((C => C.startsWith("_zaraz_"))).forEach((B => { try { j[l]["z_" + B.slice(7)] = JSON.parse(A.getItem(B)) } catch { j[l]["z_" + B.slice(7)] = A.getItem(B) } })); r.referrerPolicy = "origin"; r.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(j[l]))); q.parentNode.insertBefore(r, q) };["complete", "interactive"].includes(k.readyState) ? zaraz.init() : j.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document);</script>
+
+        <script>
+
+            $(document).ready(function(){
+
+                $("#idFormComment").submit( function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Kirim komentar ?',
+                    text: "komentar anda akan ditampilkan",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Simpan'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: 'modul/koneksi/service_customer.php?aksi=simpanComment',
+                            type: 'post',
+                            data: $(this).serialize(),
+                            success: function (data) {
+                                $("#idIsiNama").val("");
+                                $("#idIsiComment").val("");
+                                komentarDiposting();
+                            }
+                        });
+                    }
+                })
+            });
+
+            })
+        </script>
 </head>
 
 <body>
@@ -29,9 +67,9 @@
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col d-flex align-items-center">
-                    <p class="mb-0 phone"><span class="mailus">Phone no:</span> <a href="#">+00 1234 567</a> or <span
+                    <p class="mb-0 phone"><span class="mailus">Phone no:</span> <a href="#">+62 8521 913 5630</a> or <span
                             class="mailus">email us:</span> <a href="#"><span class="__cf_email__"
-                                data-cfemail="87e2eae6eeebf4e6eaf7ebe2c7e2eae6eeeba9e4e8ea">[email&#160;protected]</span></a>
+                                data-cfemail="87e2eae6eeebf4e6eaf7ebe2c7e2eae6eeeba9e4e8ea">danauindahutama@gmail.com</span></a>
                     </p>
                 </div>
                 <div class="col d-flex justify-content-end">
@@ -55,7 +93,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Danau Indah Utama<span> Hotel</span></a>
+            <a class="navbar-brand" href="index.php">Danau Indah Utama<span> Hotel</span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                 aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="fa fa-bars"></span> Menu
@@ -64,11 +102,9 @@
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Info</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Layanan</a></li>
                     <li class="nav-item"><a href="modul/customer/index.php" class="nav-link">Pesan</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Pencarian</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+                    <li class="nav-item"><a href="modul/page/room.html" class="nav-link">Kamar</a></li>
+                    <li class="nav-item"><a href="modul/page/contact_us.html" class="nav-link">Contact</a></li>
                 </ul>
             </div>
 
@@ -83,11 +119,11 @@
             <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
                 data-scrollax-parent="true">
                 <div class="col-md-7 ftco-animate">
-                    <h2 class="subheading">Welcome to Hotel Danau Indah Utama</h2>
-                    <h1 class="mb-4">Sewa hotel untuk liburan anda</h1>
+                    <!-- <h2 class="subheading">Welcome to Hotel Danau Indah Utama</h2> -->
+                    <!-- <h1 class="mb-4">Danau Indah Utama</h1> -->
                     <p>
-                        <a href="#" class="btn btn-primary">Lihat Lebih</a>
-                        <a href="#" class="btn btn-white">Hubungi Kami</a>
+                        <a href="modul/customer/index.php" class="btn btn-primary">Booking</a>
+                        <a href="https://api.whatsapp.com/send?phone=6285219135630" class="btn btn-white">Hubungi Kami</a>
                     </p>
                 </div>
             </div>
@@ -193,9 +229,10 @@
                         <div class="img" style="background-image: url(asset/image/livemusic.jpg);"></div>
                         <div class="media-body py-4 px-3">
                             <h3 class="heading">Live Music</h3>
-                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
-                                unorthographic.</p>
-                            <p><a href="#" class="btn btn-primary">Lihat</a></p>
+                            <p>
+                                Kami mempunyai hiburan live music berkualitas untuk menghibur anda
+                            </p>
+                            <!-- <p><a href="#" class="btn btn-primary">Lihat</a></p> -->
                         </div>
                     </div>
                 </div>
@@ -205,9 +242,10 @@
                         <div class="img" style="background-image: url(asset/image/minibar.jpg);"></div>
                         <div class="media-body py-4 px-3">
                             <h3 class="heading">Mini Bar</h3>
-                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
-                                unorthographic.</p>
-                            <p><a href="#" class="btn btn-primary">Lihat</a></p>
+                            <p>
+                                Fasilitas minibar siap menemani anda yang sedang menikmati live music
+                            </p>
+                            <!-- <p><a href="#" class="btn btn-primary">Lihat</a></p> -->
                         </div>
                     </div>
                 </div>
@@ -217,9 +255,10 @@
                         <div class="img" style="background-image: url(asset/image/karoke.jpg);"></div>
                         <div class="media-body py-4 px-3">
                             <h3 class="heading">Karoke</h3>
-                            <p>Even the all-powerful Pointing has no control about the blind texts it is an almost
-                                unorthographic.</p>
-                            <p><a href="#" class="btn btn-primary">Lihat</a></p>
+                            <p>
+                                Kami memiliki ruang karoke untuk menghibur anda bersama keluarga
+                            </p>
+                            <!-- <p><a href="#" class="btn btn-primary">Lihat</a></p> -->
                         </div>
                     </div>
                 </div>
@@ -240,7 +279,7 @@
             <div class="row no-gutters">
                 <div class="col-lg-6">
                     <div class="room-wrap d-md-flex">
-                        <a href="#" class="img" style="background-image: url(asset/image/melati.jpg);"></a>
+                        <a href="#" class="img" style="background-image: url(asset/image/melati_1.jpeg);"></a>
                         <div class="half left-arrow d-flex align-items-center">
                             <div class="text p-4 p-xl-5 text-center">
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
@@ -254,8 +293,11 @@
                                     <!-- <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <p class="pt-1">
-                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat <span class="icon-long-arrow-right"></span></a></p>
+                                <!-- <p class="pt-1">
+                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat
+                                        <span class="icon-long-arrow-right"></span>
+                                    </a>
+                                </p> -->
                             </div>
                         </div>
                     </div>
@@ -263,7 +305,7 @@
 
                 <div class="col-lg-6">
                     <div class="room-wrap d-md-flex">
-                        <a href="#" class="img" style="background-image: url(asset/image/anggrek.jpg);"></a>
+                        <a href="#" class="img" style="background-image: url(asset/image/anggrek_1.jpeg);"></a>
                         <div class="half left-arrow d-flex align-items-center">
                             <div class="text p-4 p-xl-5 text-center">
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
@@ -277,7 +319,11 @@
                                     <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">Lihat <span class="icon-long-arrow-right"></span></a></p>
+                                <!-- <p class="pt-1">
+                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat
+                                        <span class="icon-long-arrow-right"></span>
+                                    </a>
+                                </p> -->
                             </div>
                         </div>
                     </div>
@@ -285,150 +331,121 @@
 
                 <div class="col-lg-6">
                     <div class="room-wrap d-md-flex">
-                        <a href="#" class="img order-md-last" style="background-image: url(asset/image/vip.jpg);"></a>
+                        <a href="#" class="img order-md-last" style="background-image: url(asset/image/vip_2.jpeg);"></a>
                         <div class="half right-arrow d-flex align-items-center">
                             <div class="text p-4 p-xl-5 text-center">
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span></p>
 
-                                <h3 class="mb-3"><a href="rooms.html">VIP Family Room</a></h3>
+                                <h3 class="mb-3"><a href="rooms.html">VIP</a></h3>
                                 <ul class="list-accomodation">
                                     <li><span>Max:</span> 2 Persons</li>
                                     <!-- <li><span>Size:</span> 45 m2</li>
                                     <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">Lihat <span class="icon-long-arrow-right"></span></a></p>
+                                <!-- <p class="pt-1">
+                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat 
+                                        <span class="icon-long-arrow-right"></span>
+                                    </a>
+                                </p> -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- <div class="col-lg-6">
+                <div class="col-lg-6">
                     <div class="room-wrap d-md-flex">
-                        <a href="#" class="img order-md-last" style="background-image: url(images/room-4.jpg);"></a>
+                        <a href="#" class="img order-md-last" style="background-image: url(asset/image/vip_lantai_2.jpeg);"></a>
                         <div class="half right-arrow d-flex align-items-center">
                             <div class="text p-4 p-xl-5 text-center">
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span></p>
 
-                                <h3 class="mb-3"><a href="rooms.html">Deluxe Room</a></h3>
+                                <h3 class="mb-3"><a href="rooms.html">Family</a></h3>
                                 <ul class="list-accomodation">
                                     <li><span>Max:</span> 3 Persons</li>
-                                    <li><span>Size:</span> 45 m2</li>
-                                    <li><span>View:</span> Sea View</li>
+                                    <!-- <li><span>Size:</span> 45 m2</li>
+                                    <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">View Room
-                                        Details <span class="icon-long-arrow-right"></span></a></p>
+                                <!-- <p class="pt-1">
+                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat
+                                        <span class="icon-long-arrow-right"></span>
+                                    </a>
+                                </p> -->
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
             </div>
         </div>
     </section>
     <!-- End of Room List -->
 
+    <!-- Comment Area -->
     <section class="ftco-section testimony-section bg-light">
         <div class="container">
             <div class="row justify-content-center pb-5 mb-3">
                 <div class="col-md-7 heading-section text-center ftco-animate">
-                    <h2>Happy Clients &amp; Feedbacks</h2>
+                    <h2>Comment &amp; Feedbacks</h2>
                 </div>
             </div>
+
             <div class="row ftco-animate">
                 <div class="col-md-12">
                     <div class="carousel-testimony owl-carousel">
-                        <div class="item">
-                            <div class="testimony-wrap d-flex">
-                                <div class="user-img" style="background-image: url(images/person_1.jpg)">
-                                </div>
-                                <div class="text pl-4">
-                                    <span class="quote d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-quote-left"></i>
-                                    </span>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia, there live the blind texts.</p>
-                                    <p class="name">Racky Henderson</p>
-                                    <span class="position">Father</span>
-                                </div>
+
+                    <?php 
+                    include 'modul/koneksi/koneksi.php';
+
+                    function tglSeparator($tanggal){
+                        $separator = date("d-m-Y", strtotime($tanggal));
+                        return $separator;
+                    }
+
+                    $query = "SELECT * FROM vw_comment ORDER BY tgl_comment ASC";
+                    $run = mysqli_query($koneksi, $query);
+
+                    while ($hasil = mysqli_fetch_array($run)){
+                        ?>
+
+                    <div class="item">
+                        <div class="testimony-wrap d-flex">
+                            <div class="user-img" style="background-image: url(asset/image/userlogo.png)">
+                            </div>
+                            <div class="text pl-4">
+                                <span class="quote d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-quote-left"></i>
+                                </span>
+                                <p>
+                                    <?php echo $hasil['comment']; ?>
+                                </p>
+                                <p class="name"><?php echo $hasil['nama_user']; ?></p>
+                                <span class="position"><?php echo tglSeparator($hasil['tgl_comment']); ?></span>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="testimony-wrap d-flex">
-                                <div class="user-img" style="background-image: url(images/person_2.jpg)">
-                                </div>
-                                <div class="text pl-4">
-                                    <span class="quote d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-quote-left"></i>
-                                    </span>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia, there live the blind texts.</p>
-                                    <p class="name">Henry Dee</p>
-                                    <span class="position">Businesswoman</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap d-flex">
-                                <div class="user-img" style="background-image: url(images/person_3.jpg)">
-                                </div>
-                                <div class="text pl-4">
-                                    <span class="quote d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-quote-left"></i>
-                                    </span>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia, there live the blind texts.</p>
-                                    <p class="name">Mark Huff</p>
-                                    <span class="position">Businesswoman</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap d-flex">
-                                <div class="user-img" style="background-image: url(images/person_4.jpg)">
-                                </div>
-                                <div class="text pl-4">
-                                    <span class="quote d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-quote-left"></i>
-                                    </span>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia, there live the blind texts.</p>
-                                    <p class="name">Rodel Golez</p>
-                                    <span class="position">Businesswoman</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="testimony-wrap d-flex">
-                                <div class="user-img" style="background-image: url(images/person_1.jpg)">
-                                </div>
-                                <div class="text pl-4">
-                                    <span class="quote d-flex align-items-center justify-content-center">
-                                        <i class="fa fa-quote-left"></i>
-                                    </span>
-                                    <p>Far far away, behind the word mountains, far from the countries Vokalia and
-                                        Consonantia, there live the blind texts.</p>
-                                    <p class="name">Ken Bosh</p>
-                                    <span class="position">Businesswoman</span>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+
+                        <?php
+                    }
+                    ?>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <!-- End of comment area -->
 
     <section class="ftco-section bg-light">
         <div class="container">
             <div class="row no-gutters">
                 <div class="col-md-6 wrap-about">
-                    <div class="img img-2 mb-4" style="background-image: url(images/about.jpg);">
+                    <div class="img img-2 mb-4" style="background-image: url(asset/image/cover_2.jpg);">
                     </div>
                     <h2>Keunggulan Kami</h2>
                     <p>
@@ -451,88 +468,96 @@
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-diet"></span>
+                                    <span><i class="fa-solid fa-mug-hot"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Tea Coffee</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Sedikit relax saat menikmati liburan dengan tea dan coffee yang kami sediakan.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-workout"></span>
+                                    <span><i class="fa-solid fa-shower"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Air Hangat</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Untuk menemani relax anda kami menyediakan fasilitas air hangat.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-diet-1"></span>
+                                    <span><i class="fa-solid fa-shirt"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Laundry</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Fasilitas laundry kami merupakan solosi pakaian anda disaat liburan.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-first"></span>
+                                    <span><i class="fa-solid fa-guitar"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Live Music</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Live music kamii siap menemani setiap liburan anda di tempat kami.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-first"></span>
+                                    <span><i class="fa-solid fa-wifi"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Free Wifi</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Wifi berkecepatan tinggi kami siap menemani streaming anda saat liburan.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-first"></span>
+                                    <span><i class="fa-solid fa-utensils"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Sarapan</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Sarapan pagi kami siap menemani liburan anda di tempat kami
                                     </p>
                                 </div>
                             </div>
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-first"></span>
+                                    <span><i class="fa-solid fa-music"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Karoke</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Ruang karoke kami siap menemani anda bernyanyi bersama keluarga.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="services-2 col-lg-6 d-flex w-100">
                                 <div class="icon d-flex justify-content-center align-items-center">
-                                    <span class="flaticon-first"></span>
+                                    <span><i class="fa-solid fa-martini-glass"></i></span>
                                 </div>
                                 <div class="media-body pl-3">
                                     <h3 class="heading">Mini Bar</h3>
-                                    <p>A small river named Duden flows by their place and supplies it with the necessary
+                                    <p>
+                                        Menikmati live music dan bersantai, minibar kami siap menemani anda.
                                     </p>
                                 </div>
                             </div>
@@ -544,22 +569,25 @@
         </div>
     </section>
 
-    <section class="ftco-intro" style="background-image: url(images/bg_1.jpg);" data-stellar-background-ratio="0.5">
+    <section class="ftco-intro" style="background-image: url(asset/image/cover_3.jpg);" data-stellar-background-ratio="0.5">
         <div class="overlay"></div>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-9 text-center">
-                    <h2>Ready to get started</h2>
-                    <p class="mb-4">It’s safe to book online with us! Get your dream stay in clicks or drop us a line
-                        with your questions.</p>
-                    <p class="mb-0"><a href="#" class="btn btn-primary px-4 py-3">Book now</a> <a href="#"
-                            class="btn btn-white px-4 py-3">Contact us</a></p>
+                    <h2>Siap untuk pesan ?</h2>
+                    <p class="mb-4">
+                        Sangan aman untuk melakukan booking online, silahkan order sekarang
+                    </p>
+                    <p class="mb-0"><a href="modul/customer/index.php" class="btn btn-primary px-4 py-3">Booking</a>
+                        <a href="https://api.whatsapp.com/send?phone=6285219135630" class="btn btn-white px-4 py-3">Hubungi Kami</a>
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="ftco-section bg-light">
+    <!-- Blog -->
+    <!-- <section class="ftco-section bg-light">
         <div class="container">
             <div class="row justify-content-center pb-5 mb-3">
                 <div class="col-md-7 heading-section text-center ftco-animate">
@@ -624,7 +652,48 @@
                 </div>
             </div>
         </div>
+    </section> -->
+
+    <!-- Testimonial Section -->
+    <div id="testimonial">
+        
+    </div>
+
+    <section class="ftco-section testimony-section bg-light">
+        <div class="container">
+            <div class="row justify-content-center pb-5 mb-3">
+                <div class="col-md-7 heading-section text-center ftco-animate">
+                    <h2>Testimonial &amp; Comment</h2>
+                </div>
+            </div>
+            
+                <form method="post" class="appointment-form" id="idFormComment" autocomplete="off">
+                    <h3 class="mb-3">Testimoni anda</h3>
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" name="nameNamaUser" class="form-control" id="idIsiNama" placeholder="Nama Anda" require>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea name="nameCommentUser" class="form-control" id="idIsiComment" placeholder="Testimonial anda..." cols="5" rows="3" require></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+        </div>
     </section>
+    <!-- End of testimonial comment -->
 
     <!-- Footer -->
     <footer class="footer">
@@ -632,29 +701,31 @@
             <div class="row">
                 <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
                     <h2 class="footer-heading"><a href="#" class="logo">Danau Indah Utama</a></h2>
-                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                    <p>
+                        Hotel yang memiliki harga terjangkau dan memiliki fasilitas mewah cocok untuk liburan keluarga.
+                    </p>
                     <a href="#">Read more <span class="fa fa-chevron-right" style="font-size: 11px;"></span></a>
                 </div>
                 <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
                     <h2 class="footer-heading">Services</h2>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="py-1 d-block">Map Direction</a></li>
-                        <li><a href="#" class="py-1 d-block">Accomodation Services</a></li>
-                        <li><a href="#" class="py-1 d-block">Great Experience</a></li>
-                        <li><a href="#" class="py-1 d-block">Perfect central location</a></li>
+                        <li><a href="https://maps.app.goo.gl/uGLdT5mTkQXHnxSK8" class="py-1 d-block">Rute Map</a></li>
+                        <li><a href="#" class="py-1 d-block">Breakfast</a></li>
+                        <li><a href="#" class="py-1 d-block">Minibar</a></li>
+                        <li><a href="#" class="py-1 d-block">Karoke</a></li>
                     </ul>
                 </div>
                 <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
                     <h2 class="footer-heading">Tag cloud</h2>
                     <div class="tagcloud">
-                        <a href="#" class="tag-cloud-link">apartment</a>
-                        <a href="#" class="tag-cloud-link">home</a>
-                        <a href="#" class="tag-cloud-link">vacation</a>
-                        <a href="#" class="tag-cloud-link">rental</a>
-                        <a href="#" class="tag-cloud-link">rent</a>
-                        <a href="#" class="tag-cloud-link">house</a>
-                        <a href="#" class="tag-cloud-link">place</a>
-                        <a href="#" class="tag-cloud-link">drinks</a>
+                        <a href="#" class="tag-cloud-link">Hotel</a>
+                        <a href="#" class="tag-cloud-link">DanauIndahUtama</a>
+                        <a href="#" class="tag-cloud-link">HotelTambun</a>
+                        <a href="#" class="tag-cloud-link">SewaHotelMurah</a>
+                        <a href="#" class="tag-cloud-link">LiveMusic</a>
+                        <a href="#" class="tag-cloud-link">MiniBar</a>
+                        <a href="#" class="tag-cloud-link">Karoke</a>
+                        <a href="#" class="tag-cloud-link">HappyFamily</a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
@@ -708,8 +779,6 @@
             <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
                 stroke="#F96D00" />
         </svg></div>
-    <script src="asset/js/jquery.min.js"></script>
-    <script src="asset/js/jquery-migrate-3.0.1.min.js"></script>
     <script src="asset/js/popper.min.js"></script>
     <script src="asset/js/bootstrap.min.js"></script>
     <script src="asset/js/jquery.easing.1.3.js"></script>

@@ -380,3 +380,11 @@ vwLunas.id_booking = tbCheckOut.id_booking
 INNER JOIN tbl_status_checkout tbStatCheckout ON
 tbStatCheckout.id_status_checkout = tbCheckOut.id_status_checkout
 WHERE tbCheckOut.id_status_checkout = "SC1";
+
+CREATE VIEW vw_comment AS SELECT
+tbUser.nama_user,
+tbComment.comment,
+tbComment.tgl_comment
+FROM tbl_comment tbComment
+INNER JOIN tbl_user_comment tbUser ON
+tbUser.id_user = tbComment.id_user

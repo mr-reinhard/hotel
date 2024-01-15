@@ -160,3 +160,21 @@ function tanggalTidakValid() {
         icon: "error"
       });
 }
+
+function UploadError() {
+    Swal.fire({
+        title: "Invalid bukti transfer",
+        text: "Mohon upload bukti transfer",
+        icon: "error"
+      });
+}
+
+function komentarDiposting() {
+    Swal.fire({
+        title: "Posting berhasil",
+        text: "Komentar berhasil di posting.",
+        icon: "success",
+        showConfirmButton: false,
+        timer:"2000"
+      });
+}

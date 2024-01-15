@@ -9,8 +9,11 @@ $fetch_arr = mysqli_fetch_array($exec);
 
 <script>
     $(document).ready(function(){
+        $("#contentUpload").hide();
+
         var namaKamar = $("#idKamar").val();
         if (namaKamar == "Melati") {
+
             $("#idTanggalCheckIn,#idTanggalCheckOut").change(function(){
                     var tanggalCheckin = new Date($("#idTanggalCheckIn").val());
                     var tanggalCheckout = new Date($("#idTanggalCheckOut").val());
@@ -161,6 +164,56 @@ $fetch_arr = mysqli_fetch_array($exec);
                 }
             }
         }
+        
+        //Kondisi Cash dan Non tunai
+        $("#idJenisPembayaran").change(function(){
+            function hideElement(){
+                $("#contentUpload").hide();
+            }
+
+            function showElement(){
+                $("#contentUpload").show();
+            }
+            // JP1 =  CASH
+            var InputPembayaran = $("#idJenisPembayaran").val();
+
+            if (InputPembayaran == "JP1") {
+                hideElement();
+                return false;
+            }
+            else{
+                showElement();
+            }
+        });
+
+        // cek ekstensi dan Preview gambar yang di upload
+        $("#contentUpload").on("change","#idContentUpload", function(){
+            var file = this.files[0];
+            var validExt = ['png','jpg','jpeg'];
+
+            var fileExt = file.name.split('.').pop().toLowerCase();
+
+            if ($.inArray(fileExt, validExt) === -1) {
+                console.log("Ekstensi file tidak valid");
+                $("#idContentUpload").val("");
+                return false;
+            }
+            else{
+                var reader = new FileReader();
+
+                reader.onload = function(event){
+                    var imageUrl = event.target.result;
+                    var previewDiv = $("#previewImage");
+                    previewDiv.html('<img src="' + imageUrl + '" alt="Preview Image" class = "img-fluid rounded-start">');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $("#contentUpload").change("#idContentUpload",function(){
+            var statusUpload = $("#idContentUpload").val();
+            
+        })
     });
 </script>
 
@@ -171,7 +224,7 @@ $fetch_arr = mysqli_fetch_array($exec);
             </div>
             <div class="card-body">
                 <h5 class="card-title text-center">Isi data diri pemesan</h5>
-                <form method="post" class="" id="idForm_BookingCustomer" autocomplete="off">
+                <form method="post" class="" id="idForm_BookingCustomer" autocomplete="on" enctype="multipart/form-data">
 
                 <input type="text" readonly name="nameIdKamar" hidden value="<?php echo $fetch_arr['id_kamar']; ?>">
 
@@ -253,7 +306,32 @@ $fetch_arr = mysqli_fetch_array($exec);
                             </div>
                         </div>
 
-                        
+                        <!-- Bukti Transfer -->
+                        <div id="contentUpload">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    Upload Bukti Transfer
+                                </div>
+                                <div class="card-body">
+                                    <input type="file" name="nameBuktiTransfer" id="idContentUpload" value="" class="form-control" accept="image/*">
+                                </div>
+                            </div>
+
+                            
+                            <div class="card">
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                        <div class="col-md-4" id="previewImage">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Preview Bukti transfer -->
 
                         <div class="card">
                             <div class="card-header">

@@ -26,9 +26,68 @@ include 'koneksi.php';
         return $output_id;
     }
 
+    function idComment(){
+        $unique_id = '0123456789ABCDEFGHIJKLMNOPQRSTUVWQYZ';
+        $output_id = substr(str_shuffle($unique_id),0,5);
+        return $output_id;
+    }
+
+    function idGambar(){
+        $unique_id = '0123456789ABCDEFGHIJKLMNOPQRSTUVWQYZ';
+        $output_id = substr(str_shuffle($unique_id),0,5);
+        return $output_id;
+    }
+
+    function fnTestUpload(){
+        $fileName = $_FILES['nameBuktiTransfer']['name'];
+        $tempName = $_FILES['nameBuktiTransfer']['tmp_name'];
+        $folder = "upload/" . $fileName;
+
+        move_uploaded_file($tempName, $folder);
+    }
+
+    function uploadGambar(){
+        $namaFile = $_FILES['nameBuktiTransfer']['name']; //undefined index
+        $ukuranFile = $_FILES['nameBuktiTransfer']['size'];
+        $pesanError = $_FILES['nameBuktiTransfer']['error'];
+        $tmpName = $_FILES['nameBuktiTransfer']['tmp_name'];
+        //$uploadDir = '../../asset/upload';
+
+        // if ($pesanError === 4) {
+        //     # code...
+        //     echo "gambartidakada";
+        //     return false;
+        // }
+
+        // pisahkan string
+        $extGambar = explode('.', $namaFile);
+        //$extGambar = strtolower(pathinfo($namaFile, PATHINFO_EXTENSION));
+        //$extGambar = end($extGambar);
+        $extGambar = strtolower(end($extGambar));
+
+        // cek ukuran
+        if ($ukuranFile > 500000) {
+            # code...
+            # 0 = error
+            # 1 = ok
+            echo "ukuranterlalubesar";
+            return false;
+        }
+
+        // lolos
+        $namaFileBaru = idGambar();
+        //$namaFileBaru .= '.';
+        $namaFileBaru .= '.' . $extGambar;
+
+        move_uploaded_file($tmpName, '../../asset/upload/' . $namaFileBaru);
+
+        return $namaFileBaru;
+    }
+
 
 switch ($_GET['aksi']) {
     case 'simpan_daftar_booking':
+        
         # code...
         $kodeBooking = idBooking();
         $idKamar = $_POST['nameIdKamar'];
@@ -44,35 +103,74 @@ switch ($_GET['aksi']) {
         $catatanCustomer = $_POST['nameCatatanCustomer'];
         $totalTagihan = $_POST['nameTotalTagihan'];
         $tanggalBooking = date('Y-m-d H:i:s');
+        //======
+        
 
+        if ($jenisPembayaran == 'JP1') {
+            # code...
+            // ke table Customer
+            $sqlCust = "INSERT INTO tbl_customer(id_customer,nama_customer)VALUES('$idCustomer','$namaCustomer')";
 
-        // ke table Customer
-        $sqlCust = "INSERT INTO tbl_customer(id_customer,nama_customer)VALUES('$idCustomer','$namaCustomer')";
+            // ke table customer details
+            $sqlCustDetails = "INSERT INTO tbl_cust_details(id_detail_customer,id_customer,telp,email)VALUES('$idCustomerDetail','$idCustomer','$telfon','$emailCust')";
+    
+            // ke table booking
+            $sqlBooking = "INSERT INTO tbl_booking(id_booking,id_kamar,id_customer,tanggal_booking,catatan)VALUES('$kodeBooking','$idKamar','$idCustomer','$tanggalBooking','$catatanCustomer')";
+    
+            // ke table checkin
+            $sqlCheckIn = "INSERT INTO tbl_checkin(id_booking,tanggal_checkin,tanggal_checkout)VALUES('$kodeBooking','$tanggalCheckin','$tanggalCheckout')";        
+    
+            // ke table pembayaran
+            $sqlPembayaran = "INSERT INTO tbl_pembayaran(id_pembayaran,id_booking,total_bayar,id_jenis_bayar)VALUES('$idPembayaran','$kodeBooking','$totalTagihan','$jenisPembayaran')";        
+    
+            // ke tabel pelunasan
+            $sqlPelunasan = "INSERT INTO tbl_pelunasan(id_pembayaran,id_status_bayar)VALUES('$idPembayaran','SB3')";        
 
-        // ke table customer details
-        $sqlCustDetails = "INSERT INTO tbl_cust_details(id_detail_customer,id_customer,telp,email)VALUES('$idCustomerDetail','$idCustomer','$telfon','$emailCust')";
+            $runCust = mysqli_query($koneksi, $sqlCust);
+            $runCustDetails = mysqli_query($koneksi, $sqlCustDetails);
+            $runBooking = mysqli_query($koneksi, $sqlBooking);
+            $runCheckIn = mysqli_query($koneksi, $sqlCheckIn);
+            $runPembayaran = mysqli_query($koneksi, $sqlPembayaran);
+            $runPelunasan = mysqli_query($koneksi, $sqlPelunasan);
 
-        // ke table booking
-        $sqlBooking = "INSERT INTO tbl_booking(id_booking,id_kamar,id_customer,tanggal_booking,catatan)VALUES('$kodeBooking','$idKamar','$idCustomer','$tanggalBooking','$catatanCustomer')";
+            return false;
+        }
+        else{
+            
+            $buktiTransfer = uploadGambar();
+            
+            // ke table Customer
+            $sqlCust = "INSERT INTO tbl_customer(id_customer,nama_customer)VALUES('$idCustomer','$namaCustomer')";
 
-        // ke table checkin
-        $sqlCheckIn = "INSERT INTO tbl_checkin(id_booking,tanggal_checkin,tanggal_checkout)VALUES('$kodeBooking','$tanggalCheckin','$tanggalCheckout')";        
+            // ke table customer details
+            $sqlCustDetails = "INSERT INTO tbl_cust_details(id_detail_customer,id_customer,telp,email)VALUES('$idCustomerDetail','$idCustomer','$telfon','$emailCust')";
+    
+            // ke table booking
+            $sqlBooking = "INSERT INTO tbl_booking(id_booking,id_kamar,id_customer,tanggal_booking,catatan)VALUES('$kodeBooking','$idKamar','$idCustomer','$tanggalBooking','$catatanCustomer')";
+    
+            // ke table checkin
+            $sqlCheckIn = "INSERT INTO tbl_checkin(id_booking,tanggal_checkin,tanggal_checkout)VALUES('$kodeBooking','$tanggalCheckin','$tanggalCheckout')";        
+    
+            // ke table pembayaran
+            $sqlPembayaran = "INSERT INTO tbl_pembayaran(id_pembayaran,id_booking,total_bayar,id_jenis_bayar)VALUES('$idPembayaran','$kodeBooking','$totalTagihan','$jenisPembayaran')";        
+    
+            // ke tabel pelunasan
+            $sqlPelunasan = "INSERT INTO tbl_pelunasan(id_pembayaran,id_status_bayar)VALUES('$idPembayaran','SB3')";
 
-        // ke table pembayaran
-        $sqlPembayaran = "INSERT INTO tbl_pembayaran(id_pembayaran,id_booking,total_bayar,id_jenis_bayar)VALUES('$idPembayaran','$kodeBooking','$totalTagihan','$jenisPembayaran')";        
+            // ke table upload
+            $sqlUpload = "INSERT INTO tbl_bukti_transfer(id_booking,gambar_upload)VALUES('$kodeBooking','$buktiTransfer')";
 
-        // ke tabel pelunasan
-        $sqlPelunasan = "INSERT INTO tbl_pelunasan(id_pembayaran,id_status_bayar)VALUES('$idPembayaran','SB3')";        
-
-
-        $runCust = mysqli_query($koneksi,$sqlCust);
-        $runCustDetails = mysqli_query($koneksi, $sqlCustDetails);
-        $runBooking = mysqli_query($koneksi, $sqlBooking);
-        $runCheckIn = mysqli_query($koneksi, $sqlCheckIn);
-        $runPembayaran = mysqli_query($koneksi, $sqlPembayaran);
-        $runPelunasan = mysqli_query($koneksi,$sqlPelunasan);
-
-        echo $kodeBooking;
+            $runCust = mysqli_query($koneksi, $sqlCust);
+            $runCustDetails = mysqli_query($koneksi, $sqlCustDetails);
+            $runBooking = mysqli_query($koneksi, $sqlBooking);
+            $runCheckIn = mysqli_query($koneksi, $sqlCheckIn);
+            $runPembayaran = mysqli_query($koneksi, $sqlPembayaran);
+            $runPelunasan = mysqli_query($koneksi, $sqlPelunasan);
+            $runUpload = mysqli_query($koneksi, $sqlUpload);
+            
+            return false;
+        }
+        
         break;
 
     case 'truncateTable':
@@ -84,6 +182,7 @@ switch ($_GET['aksi']) {
         $tblPembayaran = "TRUNCATE tbl_pembayaran";
         $tblPelunasan = "TRUNCATE tbl_pelunasan";
         $tblCheckout = "TRUNCATE tbl_checkout";
+        $tblUpload = "TRUNCATE tbl_bukti_transfer";
 
         $run1 = mysqli_query($koneksi,$tblBooking);
         $run2 = mysqli_query($koneksi,$tblCheckin);
@@ -92,12 +191,21 @@ switch ($_GET['aksi']) {
         $run5 = mysqli_query($koneksi,$tblPembayaran);
         $run6 = mysqli_query($koneksi,$tblPelunasan);
         $run7 = mysqli_query($koneksi,$tblCheckout);
+        $run8 = mysqli_query($koneksi,$tblUpload);
         break;
 
-    case 'testValue':
+    case 'simpanComment':
         # code...
-        $nomorId = idBooking();
-        echo $nomorId;
+        $idUser = idComment();
+        $namaUser = $_POST['nameNamaUser'];
+        $commentUser = $_POST['nameCommentUser'];
+        $tanggalComment = date('Y-m-d');
+
+        $insertUser = "INSERT INTO tbl_user_comment(id_user,nama_user)VALUES('$idUser','$namaUser')";
+        $insertComment = "INSERT INTO tbl_comment(id_user,comment,tgl_comment)VALUES('$idUser','$commentUser','$tanggalComment')";
+
+        $runUser = mysqli_query($koneksi,$insertUser);
+        $runComment = mysqli_query($koneksi,$insertComment);
         break;
     
     default:

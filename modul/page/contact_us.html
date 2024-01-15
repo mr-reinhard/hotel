@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Hotel Danau Indah Utama</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,500i,600,600i,700,700i&display=swap"
+        rel="stylesheet">
+    <script src="../../asset/js/jquery.min.js"></script>
+    <script src="../../asset/js/jquery-migrate-3.0.1.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../asset/css/animate.css">
+    <link rel="stylesheet" href="../../asset/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../../asset/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="../../asset/css/magnific-popup.css">
+    <link rel="stylesheet" href="../../asset/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="../../asset/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="../../asset/css/flaticon.css">
+    <link rel="stylesheet" href="../../asset/css/style.css">
+    <link rel="stylesheet" href="../../asset/css/fontawesome.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script
+        nonce="32975179-ef38-4641-b50f-0ed755e2a095">(function (w, d) { !function (dp, dq, dr, ds) { dp[dr] = dp[dr] || {}; dp[dr].executed = []; dp.zaraz = { deferred: [], listeners: [] }; dp.zaraz.q = []; dp.zaraz._f = function (dt) { return async function () { var du = Array.prototype.slice.call(arguments); dp.zaraz.q.push({ m: dt, a: du }) } }; for (const dv of ["track", "set", "debug"]) dp.zaraz[dv] = dp.zaraz._f(dv); dp.zaraz.init = () => { var dw = dq.getElementsByTagName(ds)[0], dx = dq.createElement(ds), dy = dq.getElementsByTagName("title")[0]; dy && (dp[dr].t = dq.getElementsByTagName("title")[0].text); dp[dr].x = Math.random(); dp[dr].w = dp.screen.width; dp[dr].h = dp.screen.height; dp[dr].j = dp.innerHeight; dp[dr].e = dp.innerWidth; dp[dr].l = dp.location.href; dp[dr].r = dq.referrer; dp[dr].k = dp.screen.colorDepth; dp[dr].n = dq.characterSet; dp[dr].o = (new Date).getTimezoneOffset(); if (dp.dataLayer) for (const dC of Object.entries(Object.entries(dataLayer).reduce(((dD, dE) => ({ ...dD[1], ...dE[1] })), {}))) zaraz.set(dC[0], dC[1], { scope: "page" }); dp[dr].q = []; for (; dp.zaraz.q.length;) { const dF = dp.zaraz.q.shift(); dp[dr].q.push(dF) } dx.defer = !0; for (const dG of [localStorage, sessionStorage]) Object.keys(dG || {}).filter((dI => dI.startsWith("_zaraz_"))).forEach((dH => { try { dp[dr]["z_" + dH.slice(7)] = JSON.parse(dG.getItem(dH)) } catch { dp[dr]["z_" + dH.slice(7)] = dG.getItem(dH) } })); dx.referrerPolicy = "origin"; dx.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(dp[dr]))); dw.parentNode.insertBefore(dx, dw) };["complete", "interactive"].includes(dq.readyState) ? zaraz.init() : dp.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document);</script>
+
+
+    <script>
+        $(document).ready(function(){
+
+            // Maps Location
+            var map = L.map('map').setView([40.7128, -74.0060], 10); // Inisialisasi peta dengan koordinat dan zoom tertentu
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var addresses = ['Danau Indah Utama']; // Daftar alamat yang ingin ditampilkan di peta
+
+            for (var x = 0; x < addresses.length; x++) {
+            // Tambahkan penanda ke peta pada koordinat yang sudah diketahui (tidak memerlukan API Geocoding)
+            L.marker([-6.274410, 107.055110]).addTo(map)
+                .bindPopup('Lokasi: ' + addresses[x]) // Informasi popup untuk penanda
+                .openPopup();
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col d-flex align-items-center">
+                    <p class="mb-0 phone"><span class="mailus">Phone no:</span> <a href="#">+00 1234 567</a> or <span
+                            class="mailus">email us:</span> <a href="#"><span class="__cf_email__"
+                                data-cfemail="1b7e767a7277687a766b777e5b7e767a727735787476">[email&#160;protected]</span></a>
+                    </p>
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <div class="social-media">
+                        <p class="mb-0 d-flex">
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.php">Danau Indah Utama<span> Hotel</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa fa-bars"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="../../index.php" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="../customer/index.php" class="nav-link">Pesan</a></li>
+                    <li class="nav-item"><a href="room.html" class="nav-link">Kamar</a></li>
+                    <li class="nav-item active"><a href="contact_us.html" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('../../asset/image/contact.jpg');"
+        data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-center justify-content-center">
+                <div class="col-md-9 ftco-animate text-center">
+                    <p class="breadcrumbs mb-2"><span class="mr-2"><a href="../../index.php">Home <i
+                                    class="fa fa-chevron-right"></i></a></span> <span>Contact <i
+                                class="fa fa-chevron-right"></i></span></p>
+                    <h1 class="mb-0 bread">Hubungi Kami</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="ftco-section bg-light">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-md-8">
+                    <div id="map" class="map"></div>
+                </div>
+                <div class="col-md-4 p-4 p-md-5 bg-white">
+                    <h2 class="font-weight-bold mb-4">Pesan sekarang</h2>
+                    <p>
+                        Dengan memesan kamar di hotel danau indah utama, anda mendapatkan penawaran harga dan fasilitas yang menarik.
+                    </p>
+                    <p><a href="../../modul/customer/index.php" class="btn btn-primary">Booking Sekarang</a></p>
+                </div>
+                <div class="col-md-12">
+                    <div class="wrapper">
+                        <div class="row no-gutters">
+                            <div class="col-lg-8 col-md-7 d-flex align-items-stretch">
+                                <div class="contact-wrap w-100 p-md-5 p-4">
+                                    <h3 class="mb-4">Email kami</h3>
+                                    <div id="form-message-warning" class="mb-4"></div>
+                                    <div id="form-message-success" class="mb-4">
+                                        Untuk informasi dan saran dapat email kami
+                                    </div>
+
+                                    <form method="POST" id="contactForm" name="contactForm" class="contactForm">
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="label" for="name">Nama Lengkap</label>
+                                                    <input type="text" class="form-control" name="name" id="name"
+                                                        placeholder="Name">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="label" for="email">Alamat email</label>
+                                                    <input type="email" class="form-control" name="email" id="email"
+                                                        placeholder="Email">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="label" for="subject">Subject</label>
+                                                    <input type="text" class="form-control" name="subject" id="subject"
+                                                        placeholder="Subject">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="label" for="#">Pesan</label>
+                                                    <textarea name="message" class="form-control" id="message" cols="30"
+                                                        rows="4" placeholder="Pesan"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="submit" value="Kirim" class="btn btn-primary">
+                                                    <div class="submitting"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-5 d-flex align-items-stretch">
+                                <div class="info-wrap bg-primary w-100 p-md-5 p-4">
+                                    <h3>Informasi</h3>
+                                    <p class="mb-4">Untuk lebih detail dapat menghubungi kami</p>
+                                    <div class="dbox w-100 d-flex align-items-start">
+                                        <div class="icon d-flex align-items-center justify-content-center">
+                                            <span class="fa fa-map-marker"></span>
+                                        </div>
+                                        <div class="text pl-3">
+                                            <p>
+                                                <a href="https://maps.app.goo.gl/uGLdT5mTkQXHnxSK8"><button class="btn btn-primary">Klik untuk rute</button></a>
+                                                
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="dbox w-100 d-flex align-items-center">
+
+                                        <div class="icon d-flex align-items-center justify-content-center">
+                                            <i class="fa-brands fa-whatsapp fa-xl"></i>
+                                        </div>
+                                        
+                                        <div class="text pl-3">
+                                            <p>
+                                                <a href="https://api.whatsapp.com/send?phone=6285219135630"><button class="btn btn-primary">Klik untuk WA</button></a>
+                                                
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="dbox w-100 d-flex align-items-center">
+                                        <div class="icon d-flex align-items-center justify-content-center">
+                                            <span class="fa fa-paper-plane"></span>
+                                        </div>
+                                        <div class="text pl-3">
+                                            <p><span>Email:</span> <a
+                                                    href="/cdn-cgi/l/email-protection#5e373038311e27312b2c2d372a3b703d3133"><span
+                                                        class="__cf_email__"
+                                                        data-cfemail="0c65626a634c7563797e7f657869226f6361">danauindahutama@gmail.com</span></a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="dbox w-100 d-flex align-items-center">
+                                        <div class="icon d-flex align-items-center justify-content-center">
+                                            <span class="fa fa-globe"></span>
+                                        </div>
+                                        <div class="text pl-3">
+                                            <p><span>Website</span> <a href="../../index.php">hoteldanauindahutama.com</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                    <h2 class="footer-heading"><a href="#" class="logo">Hotel Danau Indah Utama</a></h2>
+                    <p>
+                        Hotel yang memiliki harga terjangkau dan memiliki fasilitas mewah cocok untuk liburan keluarga.
+
+                    </p>
+                    <a href="#">Read more <span class="fa fa-chevron-right" style="font-size: 11px;"></span></a>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                    <h2 class="footer-heading">Services</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="https://maps.app.goo.gl/uGLdT5mTkQXHnxSK8" class="py-1 d-block">Rute Maps</a></li>
+                        <li><a href="#" class="py-1 d-block">Breakfast</a></li>
+                        <li><a href="#" class="py-1 d-block">Minibar</a></li>
+                        <li><a href="#" class="py-1 d-block">Karoke</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                    <h2 class="footer-heading">Tag cloud</h2>
+                    <div class="tagcloud">
+                        <a href="#" class="tag-cloud-link">Hotel</a>
+                        <a href="#" class="tag-cloud-link">DanauIndahUtama</a>
+                        <a href="#" class="tag-cloud-link">HotelTambun</a>
+                        <a href="#" class="tag-cloud-link">SewaHotelMurah</a>
+                        <a href="#" class="tag-cloud-link">LiveMusic</a>
+                        <a href="#" class="tag-cloud-link">MiniBar</a>
+                        <a href="#" class="tag-cloud-link">Karoke</a>
+                        <a href="#" class="tag-cloud-link">HappyFamily</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                    <h2 class="footer-heading">Subcribe</h2>
+                    <form action="#" class="subscribe-form">
+                        <div class="form-group d-flex">
+                            <input type="text" class="form-control rounded-left" placeholder="Enter email address">
+                            <button type="submit" class="form-control submit rounded-right"><span
+                                    class="sr-only">Submit</span><i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                    <h2 class="footer-heading mt-5">Follow us</h2>
+                    <ul class="ftco-footer-social p-0">
+                        <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top"
+                                title="Twitter"><span class="fa fa-twitter"></span></a></li>
+                        <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top"
+                                title="Facebook"><span class="fa fa-facebook"></span></a></li>
+                        <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top"
+                                title="Instagram"><span class="fa fa-instagram"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="w-100 mt-5 border-top py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-8">
+                        <p class="copyright mb-0">
+                            Copyright &copy;
+                            <script data-cfasync="false"
+                                src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | Hotel Danau Indah Utama
+                        </p>
+                    </div>
+                    <div class="col-md-6 col-lg-4 text-md-right">
+                        <p class="mb-0 list-unstyled">
+                            <a class="mr-md-3" href="#">Terms</a>
+                            <a class="mr-md-3" href="#">Privacy</a>
+                            <a class="mr-md-3" href="#">Compliances</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#F96D00" />
+        </svg></div>
+    <script src="../../asset/js/popper.min.js"></script>
+    <script src="../../asset/js/bootstrap.min.js"></script>
+    <script src="../../asset/js/jquery.easing.1.3.js"></script>
+    <script src="../../asset/js/jquery.waypoints.min.js"></script>
+    <script src="../../asset/js/jquery.stellar.min.js"></script>
+    <script src="../../asset/js/jquery.animateNumber.min.js"></script>
+    <script src="../../asset/js/bootstrap-datepicker.js"></script>
+    <script src="../../asset/js/jquery.timepicker.min.js"></script>
+    <script src="../../asset/js/owl.carousel.min.js"></script>
+    <script src="../../asset/js/jquery.magnific-popup.min.js"></script>
+    <script src="../../asset/js/scrollax.min.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    
+    <script src="../../asset/js/main.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+    <script defer
+        src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317"
+        integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA=="
+        data-cf-beacon='{"rayId":"843ce24b5c0b0446","version":"2023.10.0","token":"cd0b4b3a733644fc843ef0b185f98241"}'
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

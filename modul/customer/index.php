@@ -51,15 +51,15 @@
         });
 
         //Truncate Mode (tbl_kamar)
-            // $("#menuNavbar").on("click", "#id_semuaTable", function () {
-            //     $.ajax({
-            //         url: '../koneksi/service_customer.php?aksi=truncateTable',
-            //         type: 'GET',
-            //         success: function (data) {
-            //             console.log("Data berhasil dihapus");
-            //         }
-            //     });
-            // });
+            $("#menuNavbar").on("click", "#id_semuaTable", function () {
+                $.ajax({
+                    url: '../koneksi/service_customer.php?aksi=truncateTable',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log("Data berhasil dihapus");
+                    }
+                });
+            });
 
             // $("#menuNavbar").on("click", "#testing", function () {
             //     $.ajax({
@@ -120,10 +120,18 @@
                 });
             });
 
-            // Simpan data booking
+            // Simpan data booking khushus form enctype
             $("#contentCustomer").on("submit", "#idForm_BookingCustomer", function (e) {
                 e.preventDefault();
-                Swal.fire({
+                var formData = new FormData($("#idForm_BookingCustomer")[0]);
+                var pilihPembayaran = $("#idJenisPembayaran").val();
+                var nilaiUpload = $("#idContentUpload").val();
+
+                if (pilihPembayaran === "JP2" && nilaiUpload === "") {
+                    UploadError();
+                }
+                else{
+                    Swal.fire({
                     title: 'Data kamar sudah benar?',
                     text: "Mohon di check ulang sebelum menyimpan data!",
                     icon: 'question',
@@ -136,14 +144,18 @@
                         $.ajax({
                             url: '../koneksi/service_customer.php?aksi=simpan_daftar_booking',
                             type: 'post',
-                            data: $(this).serialize(),
+                            contentType:false,
+                            processData:false,
+                            data: formData,
                             success: function (data) {
                                 bookingBerhasil();
-                                $("#contentCustomer").html("Kode booking anda adalah " + data + " Silahkan screenshoot kode ini");
+                                // console.log(data);
                             }
                         });
                     }
                 })
+                }
+
             });
 
 
@@ -196,20 +208,20 @@
                         </ul>
                     </li>
 
-                    <!-- <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Truncate
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#" id="id_semuaTable">Semua</a></li>
+                            <li><a class="dropdown-item" href="#" id="id_semuaTable">Hapus Semua</a></li>
                             <li><a class="dropdown-item" href="#" id="testing">test</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
-                    </li> -->
+                    </li>
     
                 </ul>
     

@@ -71,3 +71,23 @@ function load_vip(){
       }
     })
   }
+
+  function load_uploadBuktiTransfer(){
+    $.ajax({
+      url:'daftar/upload_bukti.php',
+      type:'GET',
+      success:function(data){
+        $('#contentUpload').html(data);
+      }
+    })
+  }
+
+  function load_PrevBuktiTransfer(){
+    $.ajax({
+      url:'daftar/prev_bukti.php',
+      type:'GET',
+      success:function(data){
+        $('#contentUpload').html(data);
+      }
+    })
+  }
