@@ -169,6 +169,22 @@ function UploadError() {
       });
 }
 
+function ukuranGambarError() {
+    Swal.fire({
+        title: "Ukuran terlalu besar",
+        text: "Ukuran gambar minimal dibawah 500kb",
+        icon: "error"
+      });
+}
+
+function invalidEkstensi() {
+    Swal.fire({
+        title: "Ekstensi tidak valid",
+        text: "Upload hanya gambar saja",
+        icon: "error"
+      });
+}
+
 function komentarDiposting() {
     Swal.fire({
         title: "Posting berhasil",

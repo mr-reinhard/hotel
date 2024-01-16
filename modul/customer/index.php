@@ -11,6 +11,10 @@
     <script src="../../asset/jsp/notifikasi.js"></script>
     <link rel="stylesheet" href="../../asset/css/fontawesome.css">
     <link rel="icon" href="../../asset/image/logo_din.png">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="../../asset/jsp/call_ct.js"></script>
+
     <script>
 
 // Melati Lt 1: 101-127B, 
@@ -25,6 +29,11 @@
         
         $(document).ready(function(){
             load_home();
+
+            $("#idSearchBar").keyup(function(){
+                var inputData = $(this).val();
+                keyPressed(inputData);
+            })
 
         $("#menuNavbar").on("click", "#id_HomeCustomer", function () {
             load_home();
@@ -226,7 +235,7 @@
                 </ul>
     
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="idSearchBar">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
     

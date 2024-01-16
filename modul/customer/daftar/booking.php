@@ -3,8 +3,11 @@
 include '../../koneksi/koneksi.php';
 $idKamar = $_GET['id_kamar'];
 $qry = "SELECT * FROM vw_kamar WHERE id_kamar LIKE '%".$idKamar."%'";
+$queryKamar = "SELECT * FROM tbl_kamar WHERE id_kamar LIKE '%".$idKamar."%'";
 $exec = mysqli_query($koneksi,$qry);
+$execKamar = mysqli_query($koneksi,$queryKamar);
 $fetch_arr = mysqli_fetch_array($exec);
+$fetchArrKamar = mysqli_fetch_array($execKamar);
 ?>
 
 <script>
@@ -12,158 +15,86 @@ $fetch_arr = mysqli_fetch_array($exec);
         $("#contentUpload").hide();
 
         var namaKamar = $("#idKamar").val();
-        if (namaKamar == "Melati") {
+        
+        $("#datePickerCheckIn, #datePickerCheckOut").datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate:0
+        });
 
-            $("#idTanggalCheckIn,#idTanggalCheckOut").change(function(){
-                    var tanggalCheckin = new Date($("#idTanggalCheckIn").val());
-                    var tanggalCheckout = new Date($("#idTanggalCheckOut").val());
+        $("#datePickerCheckOut").change(function(){
 
-                    if (tanggalCheckout < tanggalCheckin) {
-                        
-                        tanggalTidakValid();
-                        $("#idTanggalCheckIn").val("");
-                        $("#idTanggalCheckOut").val("");
-                        return;
-                    }
+            var checkinDate = new Date($("#datePickerCheckIn").val());
+            var checkinOutDate = new Date($("#datePickerCheckOut").val());
+            var idTipeKamar = $("#idTipeKamar").val();
 
-                    var miliSecondPerDay = 1000 * 60 * 60 * 24;
-
-                    var timeDiff = Math.abs(tanggalCheckout.getTime() - tanggalCheckin.getTime());
-                    var jumlahHari = Math.ceil(timeDiff / miliSecondPerDay);// menghitung jumlah hari
-
-                    // JIka checkout malam dan keluar besok akan dihutung 1 hari
-                    if (tanggalCheckin.getDate() !== tanggalCheckout.getDate()) {
-                        jumlahHari = 1;
-                    }
-
-                    var melatiWeekDays = 210000;
-                    var melatiWeekEnd = 250000;
-                    var totalHarga = 0;
-
-                    var tanggalSekarang  = new Date(tanggalCheckin);
-
-                    while (tanggalSekarang <= tanggalCheckout) {
-
-                        var hariSekarang = tanggalSekarang.getDay();// mendapatkan hari dalam bentuk angka
-
-                        if (hariSekarang === 0 || hariSekarang === 6) {
-                            // hari sabtu minggu dianggap weekend
-                            totalHarga += melatiWeekEnd;
-                        }
-                        else{
-                            totalHarga += melatiWeekDays;
-                        }
-                        tanggalSekarang.setDate(tanggalSekarang.getDate() + 1);// pindah ke hari berikut nya
-                    }
-                    
-                    $("#idTotalBayar").html("Rp "+ totalHarga)
-                    $("#idPancingan").val(totalHarga)
-
-                });
-        }
-        else{
-            if (namaKamar == "Anggrek") {
-                $("#idTanggalCheckIn,#idTanggalCheckOut").change(function(){
-                    var tanggalCheckin = new Date($("#idTanggalCheckIn").val());
-                    var tanggalCheckout = new Date($("#idTanggalCheckOut").val());
-
-                    if (tanggalCheckout < tanggalCheckin) {
-                        $("#idTanggalCheckIn").val("");
-                        $("#idTanggalCheckOut").val("");
-                        tanggalTidakValid();
-                        return;
-                    }
-
-                    var miliSecondPerDay = 1000 * 60 * 60 * 24;
-
-                    var timeDiff = Math.abs(tanggalCheckout.getTime() - tanggalCheckin.getTime());
-                    var jumlahHari = Math.ceil(timeDiff / miliSecondPerDay);// menghitung jumlah hari
-
-                    // JIka checkout malam dan keluar besok akan dihutung 1 hari
-                    if (tanggalCheckin.getDate() !== tanggalCheckout.getDate()) {
-                        jumlahHari = 1;
-                    }
-
-                    var anggrekWeekDays = 230000;
-                    var anggrekWeekEnd = 270000;
-                    var totalHarga = 0;
-
-                    var tanggalSekarang  = new Date(tanggalCheckin);
-
-                    while (tanggalSekarang <= tanggalCheckout) {
-
-                        var hariSekarang = tanggalSekarang.getDay();// mendapatkan hari dalam bentuk angka
-
-                        if (hariSekarang === 0 || hariSekarang === 6) {
-                            // hari sabtu minggu dianggap weekend
-                            totalHarga += anggrekWeekEnd;
-                        }
-                        else{
-                            totalHarga += anggrekWeekDays;
-                        }
-                        tanggalSekarang.setDate(tanggalSekarang.getDate() + 1);// pindah ke hari berikut nya
-                    }
-
-                    console.log(totalHarga);
-                    
-                    $("#idTotalBayar").html("Rp "+ totalHarga)
-                    $("#idPancingan").val(totalHarga)
-                    
-                });
+            if (checkinDate >= checkinOutDate) {
+                tanggalTidakValid();
+                return;
             }
-            else{
-                if (namaKamar == "VIP") {
-                    $("#idTanggalCheckIn,#idTanggalCheckOut").change(function(){
-                    var tanggalCheckin = new Date($("#idTanggalCheckIn").val());
-                    var tanggalCheckout = new Date($("#idTanggalCheckOut").val());
 
-                    if (tanggalCheckout < tanggalCheckin) {
-                        tanggalTidakValid();
-                        $("#idTanggalCheckIn").val("");
-                        $("#idTanggalCheckOut").val("");
-                        return;
+            var oneDay = 24 * 60 * 60 * 1000; // jam * menit * detik * ms
+            var diffDays = Math.round(Math.abs((checkinDate - checkinOutDate) / oneDay));
+
+            var weekdayRate, weekendRate;
+
+            switch (idTipeKamar) {
+                case "FES2KY7906BN1JMZ": // melati
+                weekdayRate = 210000;
+                weekendRate = 250000;
+                    break;
+
+                case "O4J6NIQ9T0AWCESG": // anggrek
+                weekdayRate = 230000;
+                weekendRate = 270000;
+                    break;
+
+                case "3W4ILG5E8CUHVQJF": // VIP
+                weekdayRate = 260000;
+                weekendRate = 320000;
+                    break;
+
+                case "SR9E4PUYNA1QLOZ6": //Family Room
+                weekdayRate = 280000;
+                weekendRate = 350000;
+                    break;
+            
+                default:
+                    return;
+            }
+
+            var totalPrice = 0;
+
+            for (var i = 0; i < diffDays; i++) {
+                var currentDate = new Date(checkinDate.getTime() + (i * oneDay));
+
+                // Periksa apakah ini hari pertama (check-in) atau hari terakhir (check-out)
+                var isFirstDay = i === 0;
+                var isLastDay = i === diffDays - 1;
+
+                if ((isFirstDay && checkinDate.getHours() > 12) || (isLastDay && checkinOutDate.getHours() <= 12)) {
+                    // Jika ini hari pertama dan check-in setelah jam 12,
+                    // atau ini hari terakhir dan check-out sebelum jam 12,
+                    // tambahkan 1 hari ke total harga.
+                    if (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
+                        totalPrice += weekendRate;
+                    } else {
+                        totalPrice += weekdayRate;
                     }
-
-                    var miliSecondPerDay = 1000 * 60 * 60 * 24;
-
-                    var timeDiff = Math.abs(tanggalCheckout.getTime() - tanggalCheckin.getTime());
-                    var jumlahHari = Math.ceil(timeDiff / miliSecondPerDay);// menghitung jumlah hari
-
-                    // JIka checkout malam dan keluar besok akan dihutung 1 hari
-                    if (tanggalCheckin.getDate() !== tanggalCheckout.getDate()) {
-                        jumlahHari = 1;
+                } else {
+                    // Jika bukan hari pertama atau terakhir, tambahkan sesuai hari kerja atau akhir pekan.
+                    if (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
+                        totalPrice += weekendRate;
+                    } else {
+                        totalPrice += weekdayRate;
                     }
-
-                    var vipWeekDays = 260000;
-                    var vipWeekEnd = 320000;
-                    var totalHarga = 0;
-
-                    var tanggalSekarang  = new Date(tanggalCheckin);
-
-                    while (tanggalSekarang <= tanggalCheckout) {
-
-                        var hariSekarang = tanggalSekarang.getDay();// mendapatkan hari dalam bentuk angka
-
-                        if (hariSekarang === 0 || hariSekarang === 6) {
-                            // hari sabtu minggu dianggap weekend
-                            totalHarga += vipWeekEnd;
-                        }
-                        else{
-                            totalHarga += vipWeekDays;
-                        }
-                        tanggalSekarang.setDate(tanggalSekarang.getDate() + 1);// pindah ke hari berikut nya
-                    }
-
-                   
-                    
-                    $("#idTotalBayar").html("Rp "+ totalHarga)
-
-                    $("#idPancingan").val(totalHarga)
-                    
-                });
                 }
             }
-        }
+
+            $("#idTotalBayar").html("Rp. " + totalPrice);
+            $("#idTotalTagihan").val(totalPrice);
+
+            
+        })
         
         //Kondisi Cash dan Non tunai
         $("#idJenisPembayaran").change(function(){
@@ -190,30 +121,38 @@ $fetch_arr = mysqli_fetch_array($exec);
         $("#contentUpload").on("change","#idContentUpload", function(){
             var file = this.files[0];
             var validExt = ['png','jpg','jpeg'];
+            var maxSizeMB = 0.5;
+            var fileSize = this.files[0].size / 1024 / 1024;
 
             var fileExt = file.name.split('.').pop().toLowerCase();
 
             if ($.inArray(fileExt, validExt) === -1) {
-                console.log("Ekstensi file tidak valid");
+                invalidEkstensi();
                 $("#idContentUpload").val("");
                 return false;
             }
             else{
-                var reader = new FileReader();
-
-                reader.onload = function(event){
-                    var imageUrl = event.target.result;
-                    var previewDiv = $("#previewImage");
-                    previewDiv.html('<img src="' + imageUrl + '" alt="Preview Image" class = "img-fluid rounded-start">');
+                if (fileSize > maxSizeMB) {
+                    ukuranGambarError();
+                    $("#idContentUpload").val("");
+                    return false;
                 }
-                reader.readAsDataURL(file);
+                else{
+
+                    var reader = new FileReader();
+
+                    reader.onload = function(event){
+                        var imageUrl = event.target.result;
+                        var previewDiv = $("#previewImage");
+                        previewDiv.html('<img src="' + imageUrl + '" alt="Preview Image" class = "img-fluid rounded-start">');
+                    }
+                    reader.readAsDataURL(file);
+                }
+                
             }
         });
 
-        $("#contentUpload").change("#idContentUpload",function(){
-            var statusUpload = $("#idContentUpload").val();
-            
-        })
+        
     });
 </script>
 
@@ -224,9 +163,11 @@ $fetch_arr = mysqli_fetch_array($exec);
             </div>
             <div class="card-body">
                 <h5 class="card-title text-center">Isi data diri pemesan</h5>
-                <form method="post" class="" id="idForm_BookingCustomer" autocomplete="on" enctype="multipart/form-data">
+                <form method="post" class="" id="idForm_BookingCustomer" autocomplete="off" enctype="multipart/form-data">
 
                 <input type="text" readonly name="nameIdKamar" hidden value="<?php echo $fetch_arr['id_kamar']; ?>">
+
+                <input type="text" id="idTipeKamar" readonly hidden value="<?php echo $fetchArrKamar['id_namaKamar']; ?>">
 
                         <div class="mb-3">
                             <label for="idKamar" class="form-label">Tipe Kamar</label>
@@ -261,15 +202,15 @@ $fetch_arr = mysqli_fetch_array($exec);
                         </div>
 
                         <div class="mb-3">
-                            <label for="idTanggalCheckIn" class="form-label">Check In</label>
-                            <input type="datetime-local" name="nameTanggalCheckIn" class="form-control" id="idTanggalCheckIn" aria-describedby="checkIn" required>
-                            <div id="checkIn" class="form-text">Isi tanggal check in.</div>
+                            <label class="form-label">Check In</label>
+                            <input type="text" name="nameTanggalCheckIn" class="form-control" id="datePickerCheckIn">
+                            <div class="form-text">Isi tanggal check in.</div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="idTanggalCheckOut" class="form-label">Check Out</label>
-                            <input type="datetime-local" name="nameTanggalCheckOut" class="form-control" id="idTanggalCheckOut" aria-describedby="checkOut" required>
-                            <div id="checkOut" class="form-text">Isi tanggal check out.</div>
+                            <label class="form-label">Check Out</label>
+                            <input type="text" name="nameTanggalCheckOut" class="form-control" id="datePickerCheckOut">
+                            <div class="form-text">Isi tanggal check out.</div>
                         </div>
 
                         <div class="mb-3">
@@ -293,7 +234,7 @@ $fetch_arr = mysqli_fetch_array($exec);
                             <div id="idCatatanp" class="form-text">Tambahan informasi, kosongkan jika tidak perlu.</div>
                         </div>
 
-                        <input type="text" name="nameTotalTagihan" id="idPancingan" readonly hidden>
+                        <input type="text" name="nameTotalTagihan" id="idTotalTagihan" readonly hidden>
 
                         <div class="card mb-3">
                             <div class="card-header">
