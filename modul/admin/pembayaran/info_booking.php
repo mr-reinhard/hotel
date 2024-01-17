@@ -60,6 +60,11 @@ $hasil = mysqli_fetch_array($runSql);
     <label for="exampleInputEmail1" class="form-label">Status</label>
     <input type="text" class="form-control" value="<?php echo $hasil['status_bayar']; ?>" id="exampleInputEmail1" aria-describedby="emailHelp">
   </div>
+  
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Status</label>
+    <input type="text" class="form-control" value="<?php echo $hasil['status_bayar']; ?>" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
 
   </div>
 </div>
