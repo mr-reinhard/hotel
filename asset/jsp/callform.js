@@ -52,9 +52,9 @@ function load_listCheckout(){
   //=============================================
   // direktori kamar
   // Load list kamar
-function load_melati(){
+function load_listKamar(){
     $.ajax({
-      url:'kamar/melati.php',
+      url:'kamar/list_kamar.php',
       type:'GET',
       success:function(data){
         $('#contentAdmin').html(data);

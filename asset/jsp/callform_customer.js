@@ -1,8 +1,8 @@
 
 // Direktori kamar
-function load_melati(){
+function load_listKamar(){
     $.ajax({
-      url:'kamar/melati.php',
+      url:'kamar/list_kamar.php',
       type:'GET',
       success:function(data){
         $('#contentCustomer').html(data);
@@ -62,7 +62,7 @@ function load_vip(){
     })
   }
 
-  function load_kodeBooking(kodeBooking){
+  function load_kodeBooking(){
     $.ajax({
       url:'daftar/kode_booking.php',
       type:'GET',

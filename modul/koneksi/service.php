@@ -143,6 +143,46 @@ switch ($_GET['aksi']) {
         }
         
         break;
+
+    case 'loadListKamar':
+        # code...
+        $idNamaKamar = $_POST['idPilihKamar'];
+        $sql = "SELECT * FROM vw_kamar WHERE id_namaKamar LIKE '%".$idNamaKamar."%'";
+
+        $runSql = mysqli_query($koneksi, $sql);
+
+        while ($hasilData = mysqli_fetch_array($runSql)) {
+            # code...
+            $Kamar = $hasilData['namaKamar'];
+            $Lantai = $hasilData['nomorLantai'];
+            $nomorKamar = $hasilData['nomor_kamar'];
+            $idKamar = $hasilData['id_kamar'];
+
+            echo "<tr>
+            <th scope='row'>
+            $Kamar
+            </th>
+
+            <td>
+            $Lantai
+            </td>
+
+            <td>
+            $nomorKamar
+            </td>
+
+            <td>
+                <button type='button' id='' class='btn btn-warning' value='$idKamar' title='Edit' name='button'>
+                    <i class='fa-solid fa-pen-to-square'></i>
+                </button>
+
+                <button type='button' id='idBtn_delKamar' class='btn btn-danger' value='$idKamar' title='Edit' name='button'>
+                    <i class='fa-solid fa-trash-can'></i>
+                </button>
+            </td>
+        </tr>";
+        }
+        break;
     
     default:
         # code...

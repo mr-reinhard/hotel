@@ -13,6 +13,7 @@ tbCust.id_customer = tbCustDetails.id_customer
 
 CREATE VIEW vw_kamar AS SELECT
 tbKamar.id_kamar,
+tbKamar.id_namaKamar,
 tbNamaKamar.namaKamar,
 tbNomorLantai.nomorLantai,
 tbKamar.nomor_kamar,
@@ -73,6 +74,7 @@ WHERE tbKamar.id_namaKamar = "3W4ILG5E8CUHVQJF";
 
 CREATE VIEW vw_kamar_tersedia AS SELECT
 tbKamar.id_kamar,
+tbNamaKamar.id_namaKamar,
 tbNamaKamar.namaKamar,
 tbNomorLantai.nomorLantai,
 tbKamar.nomor_kamar,
@@ -85,6 +87,22 @@ tbKamar.id_nomorLantai = tbNomorLantai.id_nomorLantai
 INNER JOIN tbl_status_kamar tbStatusKamar ON
 tbKamar.id_status_kamar = tbStatusKamar.id_status_kamar
 WHERE tbKamar.id_status_kamar = "SK1";
+
+CREATE VIEW vw_kamar_penuh AS SELECT
+tbKamar.id_kamar,
+tbNamaKamar.id_namaKamar,
+tbNamaKamar.namaKamar,
+tbNomorLantai.nomorLantai,
+tbKamar.nomor_kamar,
+tbStatusKamar.status_kamar
+FROM tbl_kamar tbKamar
+INNER JOIN tbl_nama_kamar tbNamaKamar ON
+tbKamar.id_namaKamar = tbNamaKamar.id_namaKamar
+INNER JOIN tbl_nomor_lantai tbNomorLantai ON
+tbKamar.id_nomorLantai = tbNomorLantai.id_nomorLantai
+INNER JOIN tbl_status_kamar tbStatusKamar ON
+tbKamar.id_status_kamar = tbStatusKamar.id_status_kamar
+WHERE tbKamar.id_status_kamar = "SK2";
 
 
 CREATE VIEW vw_tersedia_melati AS SELECT

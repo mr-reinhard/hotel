@@ -1,5 +1,6 @@
 <?php 
 include 'koneksi.php';
+include 'fungsi.php';
 
     function idBooking(){
         $unique_id = '0123456789ABCDEFGHIJKLMNOPQRSTUVWQYZ';
@@ -133,6 +134,8 @@ switch ($_GET['aksi']) {
             $runPembayaran = mysqli_query($koneksi, $sqlPembayaran);
             $runPelunasan = mysqli_query($koneksi, $sqlPelunasan);
 
+            echo "$kodeBooking";
+
             return false;
         }
         else{
@@ -168,6 +171,7 @@ switch ($_GET['aksi']) {
             $runPelunasan = mysqli_query($koneksi, $sqlPelunasan);
             $runUpload = mysqli_query($koneksi, $sqlUpload);
             
+            echo "$kodeBooking";
             return false;
         }
         
@@ -206,6 +210,94 @@ switch ($_GET['aksi']) {
 
         $runUser = mysqli_query($koneksi,$insertUser);
         $runComment = mysqli_query($koneksi,$insertComment);
+        break;
+
+    case 'fetchKamarTersedia':
+            # code...
+            $idNamaKamar = $_POST['idNameTipeKamar'];
+            $sql = "SELECT * FROM vw_kamar_tersedia WHERE id_namaKamar LIKE '%".$idNamaKamar."%'";
+    
+            $runSql = mysqli_query($koneksi, $sql);
+            while ($hasilQuey = mysqli_fetch_array($runSql)) {
+                # code...
+                $namaKamar = $hasilQuey['namaKamar'];
+                $nomorLantai = $hasilQuey['nomorLantai'];
+                $nomorKamar = $hasilQuey['nomor_kamar'];
+                $idKamar = $hasilQuey['id_kamar'];
+    
+                echo "<tr>
+                <th scope='row'>
+                $namaKamar
+                </th>
+
+                <td>
+                $nomorLantai
+                </td>
+
+                <td>
+                $nomorKamar
+                </td>
+
+                <td>
+                    <button type='button' id='idBtn_orderKamar' class='btn btn-success' value='$idKamar' title='Edit' name='Button'>
+                        <i class='fa-solid fa-arrow-right-to-bracket'></i>
+                    </button>
+                </td>
+            </tr>";
+            }
+    break;
+
+
+    case 'cariKodeBooking':
+        # code...
+        $kodeBooking = $_POST['id_cekBooking_customer'];
+
+        $sql = "SELECT * FROM vw_pembayaran WHERE id_booking LIKE '%".$kodeBooking."%'";
+        $runSQl = mysqli_query($koneksi, $sql);
+        while ($hasil = mysqli_fetch_array($runSQl)) {
+            # code...
+            echo "  
+
+
+            <form>
+                <div class='mb-3'>
+                  <label for='exampleInputPassword1' class='form-label'>ID BOOKING</label>
+                  <input type='text' class='form-control' id='exampleInputPassword1' value='". $hasil['id_booking']."'>
+                </div>
+            
+                <div class='mb-3'>
+                  <label for='exampleInputPassword1' class='form-label'>Pemesan</label>
+                  <input type='text' class='form-control' id='exampleInputPassword1' value='".$hasil['nama_customer']. "'>
+                </div>
+            
+                <div class='mb-3'>
+                  <label for='exampleInputPassword1' class='form-label'>Tipe Kamar</label>
+                  <input type='text' class='form-control' id='exampleInputPassword1' value='".$hasil['namaKamar']."'>
+                </div>
+            
+                <div class='mb-3'>
+                  <label for='exam-pleInputPassword1' class='form-label'>Check in</label>
+                  <input type='text' class='form-control' id='exampleInputPassword1' value='".tanggalSaja($hasil['tanggal_checkin']),"'>
+                </div>
+            
+                <div class='mb-3'>
+                  <label for='exam-pleInputPassword1' class='form-label'>Check Out</label>
+                  <input type='text' class='form-control' id='exampleInputPassword1' value='".tanggalSaja($hasil['tanggal_checkout'])."'>
+                </div>
+            
+                <div class='mb-3'>
+                  <label for='exam-pleInputPassword1' class='form-label'>Jenis Pembayaran</label>
+                  <input type='text' class='form-control' id='exampleInputPassword1' value='".$hasil['jenis_bayar']."'>
+                </div>
+            
+                <div class='mb-3'>
+                  <label for='exam-pleInputPassword1' class='form-label'>Total</label>
+                  <input type='text' class='form-control' id='exampleInputPassword1' value='Rp. ".format_rupiah($hasil['total_bayar'])."'>
+                </div>
+            </form>";
+        }
+
+
         break;
     
     default:

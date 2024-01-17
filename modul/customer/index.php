@@ -40,23 +40,11 @@
         });
 
         $("#menuNavbar").on("click", "#id_menuBookingCustomer", function () {
-            load_melati();
+            load_listKamar();
         });
 
         $("#menuNavbar").on("click", "#id_menuCekKode_customer", function () {
             load_cekBooking();
-        });
-
-        $("#contentCustomer").on("click","#id_kamarMelati",function(){
-            load_melati();
-        });
-
-        $("#contentCustomer").on("click","#id_kamarAnggrek",function(){
-            load_anggrek();
-        });
-
-        $("#contentCustomer").on("click","#id_kamarVip",function(){
-            load_vip();
         });
 
         //Truncate Mode (tbl_kamar)
@@ -81,40 +69,8 @@
             //     });
             // });
 
-        // Buka form Melati
-        $("#contentCustomer").on("click", "#idBtn_orderMelati", function () {
-                var kodeKamar = $(this).attr("value");
-                $.ajax({
-                    url: "daftar/booking.php",
-                    method: "GET",
-                    data: {
-                        id_kamar: kodeKamar
-                    },
-                    dataType: "text",
-                    success: function (data) {
-                        $('#contentCustomer').html(data);
-                    }
-                });
-            });
-
-            // buka form Anggrek
-        $("#contentCustomer").on("click", "#idBtn_orderAnggrek", function () {
-                var kodeKamar = $(this).attr("value");
-                $.ajax({
-                    url: "daftar/booking.php",
-                    method: "GET",
-                    data: {
-                        id_kamar: kodeKamar
-                    },
-                    dataType: "text",
-                    success: function (data) {
-                        $('#contentCustomer').html(data);
-                    }
-                });
-            });
-
-            // Buka form VIP
-        $("#contentCustomer").on("click", "#idBtn_orderVip", function () {
+        // Buka form isi biodata booking
+        $("#contentCustomer").on("click", "#idBtn_orderKamar", function () {
                 var kodeKamar = $(this).attr("value");
                 $.ajax({
                     url: "daftar/booking.php",
@@ -141,7 +97,7 @@
                 }
                 else{
                     Swal.fire({
-                    title: 'Data kamar sudah benar?',
+                    title: 'Data booking sudah benar?',
                     text: "Mohon di check ulang sebelum menyimpan data!",
                     icon: 'question',
                     showCancelButton: true,
@@ -158,7 +114,24 @@
                             data: formData,
                             success: function (data) {
                                 bookingBerhasil();
-                                // console.log(data);
+                                var nilaiKodeBooking = data;
+                                $("#contentCustomer").html(`<form action="print/booking.php" method="post"><div class="idInformasiBooking">
+  <div class="card text-center">
+    <div class="card-header">
+      Kode Booking
+    </div>
+    <div class="card-body">
+      <h5 class="card-title" id="idGenerateBooking">${nilaiKodeBooking}</h5>
+      <p class="card-text">Ini adalah kode booking anda, harap screenshot</p>
+      <button class="btn btn-success" name="btnPrintBooking" value="${nilaiKodeBooking}"><i class="fa-solid fa-file-pdf"></i> Download PDF</button>
+    </div>
+    <div class="card-footer text-muted">
+      Danau Indah Utama
+    </div>
+  </div>
+</div></form>
+`);
+                                
                             }
                         });
                     }

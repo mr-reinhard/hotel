@@ -4,6 +4,11 @@
             return $separator;
         }
 
+          function tanggalSaja($tanggal){
+            $separator = date("d-m-Y", strtotime($tanggal));
+            return $separator;
+        }
+
         function format_rupiah($nilai_rupiah){
           $hasil_rupiah = "".number_format($nilai_rupiah,0,'.','.');
           return $hasil_rupiah;

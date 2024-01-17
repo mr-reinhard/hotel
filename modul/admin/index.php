@@ -47,7 +47,7 @@
         });
 
         $("#menuNavbar").on("click", "#menuKamar_daftar", function () {
-            load_melati();
+            load_listKamar();
         });
 
         $("#menuNavbar").on("click", "#id_menuListCheckout", function () {
@@ -102,17 +102,7 @@
 
         // modul kamar
         $("#contentAdmin").on("click","#id_kamarMelati",function(){
-            load_melati();
-        });
-
-        // direktori kamar
-        $("#contentAdmin").on("click","#id_kamarAnggrek",function(){
-            load_anggrek();
-        });
-
-        // direktori kamar
-        $("#contentAdmin").on("click","#id_kamarVip",function(){
-            load_vip();
+            load_listKamar();
         });
 
         $("#contentAdmin").on("click","#id_tambahLantai",function(){
@@ -314,8 +304,8 @@
                 });
             });
 
-            // Hapus kamar melati
-            $("#contentAdmin").on("click", "#idBtn_delMelati", function () {
+            // Hapus kamar
+            $("#contentAdmin").on("click", "#idBtn_delKamar", function () {
                 var idKamar = $(this).attr("value");
 
                 Swal.fire({
@@ -335,65 +325,7 @@
                                 id_kamar: idKamar
                             },
                             success: function (data) {
-                                load_melati();
-                                kamarBerhasilDihapus();
-                            }
-                        });
-                    }
-                });
-            });
-
-            // hapus kamar anggrek
-            $("#contentAdmin").on("click", "#idBtn_delAnggrek", function () {
-                var idKamar = $(this).attr("value");
-
-                Swal.fire({
-                    title: 'Hapus data kamar?',
-                    text: "Mohon periksa kembali.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Hapus'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '../koneksi/service.php?aksi=hapus_data_kamar',
-                            type: 'post',
-                            data: {
-                                id_kamar: idKamar
-                            },
-                            success: function (data) {
-                                load_anggrek();
-                                kamarBerhasilDihapus();
-                            }
-                        });
-                    }
-                });
-            });
-
-            // hapus kamar vip
-            $("#contentAdmin").on("click", "#idBtn_delVip", function () {
-                var idKamar = $(this).attr("value");
-
-                Swal.fire({
-                    title: 'Hapus data kamar?',
-                    text: "Mohon periksa kembali.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Hapus'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '../koneksi/service.php?aksi=hapus_data_kamar',
-                            type: 'post',
-                            data: {
-                                id_kamar: idKamar
-                            },
-                            success: function (data) {
-                                load_vip();
+                                load_listKamar();
                                 kamarBerhasilDihapus();
                             }
                         });

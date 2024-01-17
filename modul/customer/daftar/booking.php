@@ -121,7 +121,7 @@ $fetchArrKamar = mysqli_fetch_array($execKamar);
         $("#contentUpload").on("change","#idContentUpload", function(){
             var file = this.files[0];
             var validExt = ['png','jpg','jpeg'];
-            var maxSizeMB = 0.5;
+            var maxSizeMB = 0.7;
             var fileSize = this.files[0].size / 1024 / 1024;
 
             var fileExt = file.name.split('.').pop().toLowerCase();
