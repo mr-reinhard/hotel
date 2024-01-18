@@ -48,15 +48,15 @@
         });
 
         //Truncate Mode (tbl_kamar)
-            $("#menuNavbar").on("click", "#id_semuaTable", function () {
-                $.ajax({
-                    url: '../koneksi/service_customer.php?aksi=truncateTable',
-                    type: 'GET',
-                    success: function (data) {
-                        console.log("Data berhasil dihapus");
-                    }
-                });
-            });
+            // $("#menuNavbar").on("click", "#id_semuaTable", function () {
+            //     $.ajax({
+            //         url: '../koneksi/service_customer.php?aksi=truncateTable',
+            //         type: 'GET',
+            //         success: function (data) {
+            //             console.log("Data berhasil dihapus");
+            //         }
+            //     });
+            // });
 
             // $("#menuNavbar").on("click", "#testing", function () {
             //     $.ajax({

@@ -1,6 +1,7 @@
 <?php 
 include '../../koneksi/koneksi.php';
 ?>
+
 <script>
     $(document).ready(function(){
         $("#idPilihKamar").change(function(){
@@ -49,8 +50,6 @@ include '../../koneksi/koneksi.php';
         </div>
 
         <div class="card-body">
-
-            <h5 class="card-title">Melati</h5>
 
             <table class="table table-hover">
 
