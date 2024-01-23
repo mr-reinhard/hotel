@@ -58,16 +58,16 @@
                 });
             });
 
-            // $("#menuNavbar").on("click", "#testing", function () {
-            //     $.ajax({
-            //         url: '../koneksi/service_customer.php?aksi=testValue',
-            //         type: 'GET',
-            //         success: function (data) {
-            //             //console.log(data);
-            //             $("#contentCustomer").html(data);
-            //         }
-            //     });
-            // });
+            $("#menuNavbar").on("click", "#testing", function () {
+                $.ajax({
+                    url: '../koneksi/service_customer.php?aksi=testValue',
+                    type: 'GET',
+                    success: function (data) {
+                        //console.log(data);
+                        $("#contentCustomer").html(data);
+                    }
+                });
+            });
 
         // Buka form isi biodata booking
         $("#contentCustomer").on("click", "#idBtn_orderKamar", function () {

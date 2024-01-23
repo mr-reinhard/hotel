@@ -172,7 +172,7 @@ function UploadError() {
 function ukuranGambarError() {
     Swal.fire({
         title: "Ukuran terlalu besar",
-        text: "Ukuran gambar minimal dibawah 500kb",
+        text: "Ukuran gambar minimal dibawah 700kb",
         icon: "error"
       });
 }
@@ -181,6 +181,14 @@ function invalidEkstensi() {
     Swal.fire({
         title: "Ekstensi tidak valid",
         text: "Upload hanya gambar saja",
+        icon: "error"
+      });
+}
+
+function koneksiTerputus() {
+    Swal.fire({
+        title: "Koneksi terputus",
+        text: "Cek Koneksi internet anda",
         icon: "error"
       });
 }

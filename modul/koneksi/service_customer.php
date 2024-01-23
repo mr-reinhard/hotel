@@ -174,7 +174,7 @@ switch ($_GET['aksi']) {
             echo "$kodeBooking";
             return false;
         }
-        
+        mysqli_close($koneksi);
         break;
 
     case 'truncateTable':
@@ -210,6 +210,7 @@ switch ($_GET['aksi']) {
 
         $runUser = mysqli_query($koneksi,$insertUser);
         $runComment = mysqli_query($koneksi,$insertComment);
+        mysqli_close($koneksi);
         break;
 
     case 'fetchKamarTersedia':
@@ -298,6 +299,95 @@ switch ($_GET['aksi']) {
         }
 
 
+        break;
+
+    case 'fetchIdKamarStandar':
+        # code...
+        # Fetch Melati -> Standard
+        $sql = "SELECT * FROM vw_kamar_tersedia WHERE id_namaKamar = 'FES2KY7906BN1JMZ'";
+        $run = mysqli_query($koneksi,$sql);
+
+        $tampungData = array();
+
+        if (mysqli_num_rows($run) > 0) {
+            # code...
+            while ($hasil = mysqli_fetch_assoc($run)) {
+                # code...
+                $tampungData[] = $hasil;
+            }
+        }
+
+        echo json_encode($tampungData);
+        mysqli_close($koneksi);
+        break;
+
+    case 'fetchIdKamarDeluxe':
+        # code...
+        # Anggrek -> Deluxe
+        # O4J6NIQ9T0AWCESG
+        $sql = "SELECT * FROM vw_kamar_tersedia WHERE id_namaKamar = 'O4J6NIQ9T0AWCESG'";
+        $run = mysqli_query($koneksi,$sql);
+
+        $tampungData = array();
+
+        if (mysqli_num_rows($run) > 0) {
+            # code...
+            while ($hasil = mysqli_fetch_assoc($run)) {
+                # code...
+                $tampungData[] = $hasil;
+            }
+        }
+
+        echo json_encode($tampungData);
+        mysqli_close($koneksi);
+        break;
+
+    case 'fetchIdKamarSuperior':
+        # code...
+        # Vip -> Superior
+        # 3W4ILG5E8CUHVQJF
+        $sql = "SELECT * FROM vw_kamar_tersedia WHERE id_namaKamar = '3W4ILG5E8CUHVQJF'";
+        $run = mysqli_query($koneksi,$sql);
+
+        $tampungData = array();
+
+        if (mysqli_num_rows($run) > 0) {
+            # code...
+            while ($hasil = mysqli_fetch_assoc($run)) {
+                # code...
+                $tampungData[] = $hasil;
+            }
+        }
+
+        echo json_encode($tampungData);
+        mysqli_close($koneksi);
+        break;
+
+    case 'fetchIdKamarFamily':
+        # code...
+        # Family Room
+        # SR9E4PUYNA1QLOZ6
+        $sql = "SELECT * FROM vw_kamar_tersedia WHERE id_namaKamar = 'SR9E4PUYNA1QLOZ6'";
+        $run = mysqli_query($koneksi,$sql);
+
+        $tampungData = array();
+
+        if (mysqli_num_rows($run) > 0) {
+            # code...
+            while ($hasil = mysqli_fetch_assoc($run)) {
+                # code...
+                $tampungData[] = $hasil;
+            }
+        }
+
+        echo json_encode($tampungData);
+        mysqli_close($koneksi);
+        break;
+
+    case 'fetchWaktu':
+        # code...
+        $waktu = date('H:i:s');
+        echo json_encode($waktu);
         break;
     
     default:

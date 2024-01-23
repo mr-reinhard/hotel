@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../asset/css/style.css">
+    <link rel="stylesheet" href="../../asset/css/fontawesome.css">
+    <script src="../../asset/js/jquery.min.js"></script>
+    <script src="../../asset/jsp/notifikasi.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+
+        
+        $(document).ready(function(){
+            $("#contentUpload").hide();
+
+            // var reloadTimeout;
+            // $(document).on('visibilitychange', function() {
+            //     if (document.visibilityState === 'visible') {
+            //         // Halaman kembali aktif, atur ulang timeout (opsional)
+            //         clearTimeout(reloadTimeout);
+            //     } else {
+            //         // Halaman tidak aktif, atur timeout sebelum reload
+            //         reloadTimeout = setTimeout(function() {
+            //             location.reload();
+            //         }, 300000); // Contoh: Reload setelah 5 menit (300000 milidetik)
+            //     }
+            // });
+
+            // cek kalo koneksi tiba2 putus
+            $.ajax({
+                url:"../koneksi/service_customer.php",
+                type:"GET",
+                success:function(response, status, xhr)
+                {
+                    // kalo koneksi tersambung, tampilin data
+                    if (xhr.status === 200) {
+                        $.ajax({
+                            url: "../koneksi/service_customer.php?aksi=fetchIdKamarDeluxe",
+                            type: "GET",
+                            dataType: "JSON",
+                            success: function (data, status, xhr) {
+                                showData(data);
+                            }
+                        })
+                    }
+                    else{
+                        // kalo putus tampilin notifikasi
+                        koneksiTerputus();
+                    }
+                }
+            })
+
+            //=======
+
+            // Fungsi ambil data kamar
+            function showData(data){
+                var itemData = data[0];
+                if (itemData) {
+                    var dataIdKamar = itemData.id_kamar;
+                    $("#idKodeKamar").val(dataIdKamar);
+                }
+                else{
+                    console.log("data tidak ditemukan");
+                }
+            }
+
+            //============
+
+        // Hitung Biaya
+            function hitungBiaya() {
+                var checkinDate = new Date($("#datePickerCheckIn").val());
+                        var checkinOutDate = new Date($("#datePickerCheckOut").val());
+
+                        if (checkinDate >= checkinOutDate) {
+                            tanggalTidakValid();
+                            return;
+                        }
+
+                        var oneDay = 24 * 60 * 60 * 1000; // jam * menit * detik * ms
+                        var diffDays = Math.round(Math.abs((checkinDate - checkinOutDate) / oneDay));
+
+                        var totalPrice = 0;
+
+                        // Mengambil informasi jam, menit, dan detik saat ini dari server PHP menggunakan Ajax
+                        $.ajax({
+                            type: 'GET',
+                            url: '../koneksi/service_customer.php?aksi=fetchWaktu', // Ganti dengan nama file PHP yang sesuai
+                            dataType: 'json',
+                            success: function (response) {
+                                var currentHour = response.currentHour;
+                                var currentMinute = response.currentMinute;
+                                var currentSecond = response.currentSecond;
+
+                                for (var i = 0; i < diffDays; i++) {
+                                    var currentDate = new Date(checkinDate.getTime() + (i * oneDay));
+
+                                    // Periksa apakah ini hari pertama (check-in) atau hari terakhir (check-out)
+                                    var isFirstDay = i === 0;
+                                    var isLastDay = i === diffDays - 1;
+
+                                    // Periksa apakah hari ini Jumat dan jam check-in setelah atau sama dengan 14:00:00
+                                    var isFridayAfter2PM = isFirstDay && currentDate.getDay() === 5 &&
+                                        (currentHour > 14 ||
+                                            (currentHour === 14 && currentMinute > 0) ||
+                                            (currentHour === 14 && currentMinute === 0 && currentSecond >= 0));
+
+                                    // Periksa apakah hari ini Minggu dan jam check-out setelah atau sama dengan 14:00:00
+                                    var isSundayAfter2PM = isLastDay && currentDate.getDay() === 0 &&
+                                        (currentHour > 14 ||
+                                            (currentHour === 14 && currentMinute > 0) ||
+                                            (currentHour === 14 && currentMinute === 0 && currentSecond >= 0));
+
+                                    if (isFridayAfter2PM || isSundayAfter2PM) {
+                                        // Jika ini hari Jumat dan check-in setelah atau sama dengan jam 14:00:00,
+                                        // atau ini hari Minggu dan check-out setelah atau sama dengan jam 14:00:00,
+                                        // tambahkan 1 hari ke total harga dengan tarif weekend.
+                                        totalPrice += 270000; // Tarif weekend
+                                    } else {
+                                        // Jika bukan hari pertama atau terakhir, tambahkan sesuai hari kerja atau akhir pekan.
+                                        totalPrice += (currentDate.getDay() === 0 || currentDate.getDay() === 6) ? 270000 : 230000;
+                                    }
+                                }
+                                $("#idTotalTagihan").val(totalPrice);
+                                $("#idTotalBayar").html("Rp. " + totalPrice);
+                            },
+                                error: function (xhr, status, error) {
+                                console.error('AJAX Error:', status, error);
+                            }
+                        });
+                    }// end hitung biaya
+
+        //===========================
+
+        // Standard -> Melati
+        
+        $("#datePickerCheckIn, #datePickerCheckOut").datepicker({
+            dateFormat: "yy-mm-dd",
+            minDate:0
+        });
+
+        $("#datePickerCheckOut").change(function(){
+
+            var nilai = hitungBiaya();
+
+            
+        })
+        
+        //Kondisi Cash dan Non tunai
+        $("#idJenisPembayaran").change(function(){
+            function hideElement(){
+                $("#contentUpload").hide();
+            }
+
+            function showElement(){
+                $("#contentUpload").show();
+            }
+            // JP1 =  CASH
+            var InputPembayaran = $("#idJenisPembayaran").val();
+
+            if (InputPembayaran == "JP1") {
+                hideElement();
+                return false;
+            }
+            else{
+                showElement();
+            }
+        });
+
+        // cek ekstensi dan Preview gambar yang di upload
+        $("#idContentUpload").change(function(){
+            var file = this.files[0];
+            var validExt = ['png','jpg','jpeg'];
+            var maxSizeMB = 0.7;
+            var fileSize = this.files[0].size / 1024 / 1024;
+
+            var fileExt = file.name.split('.').pop().toLowerCase();
+
+            if ($.inArray(fileExt, validExt) === -1) {
+                invalidEkstensi();
+                $("#idContentUpload").val("");
+                return false;
+            }
+            else{
+                if (fileSize > maxSizeMB) {
+                    ukuranGambarError();
+                    $("#idContentUpload").val("");
+                    return false;
+                }
+                else{
+
+                    var reader = new FileReader();
+
+                    reader.onload = function(event){
+                        var imageUrl = event.target.result;
+                        var previewDiv = $("#previewImage");
+                        previewDiv.html('<img src="' + imageUrl + '" alt="Preview Image" class = "img-fluid rounded-start">');
+                    }
+                    reader.readAsDataURL(file);
+                }
+                
+            }
+        });
+
+        // Error Handling Form Booking
+        function cekDanSimpan(){
+
+            var pilihPembayaran = $("#idJenisPembayaran").val();
+            var nilaiUpload = $("#idContentUpload").val();
+
+            if (pilihPembayaran === "JP2" && nilaiUpload === "") {
+                UploadError();
+            }
+            else{
+                // panggil fungsi simpan data
+                simpanData();
+            }
+        }
+
+        // Simpan data
+        function simpanData(){
+            var formData = new FormData($("#idForm_BookingDeluxe")[0]);
+            $.ajax({
+                url:"../koneksi/service_customer.php?aksi=simpan_daftar_booking",
+                type:"POST",
+                contentType:false,
+                processData:false,
+                data: formData,
+                success:function(data)
+                {
+                    bookingBerhasil();
+                    var kodeBoking = data;
+                    $("#contentCustomer").html(`<form action="../customer/print/booking.php" method="post"><div class="idInformasiBooking"><div class="card text-center"><div class="card-header">Kode Booking</div><div class="card-body"><h5 class="card-title" id="idGenerateBooking">${kodeBoking}</h5><p class="card-text">Ini adalah kode booking anda, harap screenshot</p><button class="btn btn-success" name="btnPrintBooking" value="${kodeBoking}"><i class="fa-solid fa-file-pdf"></i> Download Bukti Booking</button></div><div class="card-footer text-muted">Danau Indah Utama</div></div></div></form>`);
+                    bookingBerhasil();
+                }
+            })
+        }
+
+            // Simpan data booking khushus form enctype
+            $("#idForm_BookingDeluxe").submit( function (e) {
+                    e.preventDefault();
+                    Swal.fire({
+                    title: 'Data booking sudah benar?',
+                    text: "Mohon di check ulang sebelum menyimpan data!",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Simpan'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        cekDanSimpan();
+                    }
+                })
+            });
+
+        })// end of jquery
+    </script>
+</head>
+<body id="contentCustomer">
+
+    <!-- Header -->
+    <div class="wrap">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col d-flex align-items-center">
+                    <p class="mb-0 phone"><span class="mailus">Phone no:</span> <a href="#">+62 8521 913 5630</a> or <span
+                            class="mailus">email us:</span> <a href="#"><span class="__cf_email__"
+                                data-cfemail="87e2eae6eeebf4e6eaf7ebe2c7e2eae6eeeba9e4e8ea">danauindahutama@gmail.com</span></a>
+                    </p>
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <div class="social-media">
+                        <p class="mb-0 d-flex">
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Header -->
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.php">Danau Indah Utama<span> Hotel</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="fa fa-bars"></span> Menu
+            </button>
+
+            <!-- Navigation Menu -->
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a href="../../index.php" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Pesan</a></li>
+                    <li class="nav-item"><a href="room.html" class="nav-link">Kamar</a></li>
+                    <li class="nav-item"><a href="contact_us.html" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+            <!-- End of Navigation Menu -->
+
+        </div>
+    </nav>
+    <!-- End of Navbar -->
+
+
+    <!-- Content Here -->
+    <div class="card">
+        <h5 class="card-header">Deluxe</h5>
+        <div class="card-body">
+            <!-- Carousel -->
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+
+                  <div class="carousel-item active">
+                    <img src="../../asset/image/anggrek_1.jpeg" class="d-block w-100" alt="...">
+                  </div>
+
+                  <div class="carousel-item">
+                    <img src="../../asset/image/anggrek_2.jpg" class="d-block w-100" alt="...">
+                  </div>
+
+                  <div class="carousel-item">
+                    <img src="../../asset/image/anggrek_3.jpg" class="d-block w-100" alt="...">
+                  </div>
+
+                  <div class="carousel-item">
+                    <img src="../../asset/image/anggrek_4.jpg" class="d-block w-100" alt="...">
+                  </div>
+
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <!-- End fo Carousel -->
+        </div>
+    </div>
+
+    <!-- Fasilitas -->
+    <div class="card">
+        <h5 class="card-header">Fasilitas</h5>
+        <div class="card-body text-center">
+
+            <div class="row">
+
+                <div class="col">
+                    <i class="fa-solid fa-tv fa-2xl"></i>
+                    <label for="" class="d-block mt-2">TV</label>
+                </div>
+
+                <div class="col">
+                    <i class="fa-solid fa-wifi fa-2xl"></i>
+                    <label for="" class="d-block mt-2">WiFi</label>
+                </div>
+
+                <div class="col">
+                    <i class="fa-solid fa-bottle-water fa-2xl"></i>
+                    <label for="" class="d-block mt-2">Air</label>
+                </div>
+
+                <div class="col">
+                    <i class="fa-solid fa-shower fa-2xl"></i>
+                    <label for="" class="d-block mt-2">Shower</label>
+                </div>
+
+                <div class="col">
+                    <i class="fa-solid fa-toilet-paper fa-2xl"></i>
+                    <label for="" class="d-block mt-2">Tissue</label>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Fasilitas -->
+
+    <!-- Booking Form -->
+    <div class="card">
+        <h5 class="card-header">Isi data anda</h5>
+        <div class="card-body">
+
+            <form method="post" class="" id="idForm_BookingDeluxe" autocomplete="off" enctype="multipart/form-data">
+
+                <input type="text" id="idKodeKamar" name="nameIdKamar" readonly hidden>
+
+                        <div class="mb-3">
+                            <label for="idEmail" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="idEmail"
+                                aria-describedby="emailHelp" name="nameEmailCustomer">
+                            <div id="emailHelp" class="form-text">Kosongkan jika tidak perlu.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idNamaLengkap" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="idNamaLengkap"
+                                aria-describedby="emailHelp" name="nameNamaCustomer" required>
+                            <div id="emailHelp" class="form-text">Isi nama lengkap pemesan.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Check In</label>
+                            <input type="text" name="nameTanggalCheckIn" class="form-control" id="datePickerCheckIn">
+                            <div class="form-text">Isi tanggal check in.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Check Out</label>
+                            <input type="text" name="nameTanggalCheckOut" class="form-control" id="datePickerCheckOut">
+                            <div class="form-text">Isi tanggal check out.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idTelfon" class="form-label">Telfon</label>
+                            <input type="text" class="form-control" id="idTelfon"
+                                aria-describedby="emailHelp" name="nameTelfonCustomer" required>
+                            <div id="emailHelp" class="form-text">Isi nomor yang dapat dihubungi.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idJenisPembayaran">Jenis Pembayaran</label>
+                            <select name="nameSelectJenisPembayaran" id="idJenisPembayaran" class="form-select" required>
+                                <option value="JP1">Cash</option>
+                                <option value="JP2">Non Tunai</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idCatatan" class="form-label">Catatan</label>
+                            <textarea name="nameCatatanCustomer" id="" cols="30" rows="3" class="form-control" placeholder="Contoh, Pembayaran atas nama Mr/Mrs/Ms John atau Jane" required></textarea>
+                            <div id="idCatatanp" class="form-text">Tambahan informasi, kosongkan jika tidak perlu.</div>
+                        </div>
+
+                        <input type="text" name="nameTotalTagihan" id="idTotalTagihan" readonly hidden>
+
+                        <!-- Total Pembayaran -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                Total pembayaran
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p id="idTotalBayar"></p>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <!-- Bukti Transfer -->
+                        <div id="contentUpload">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    Upload Bukti Transfer
+                                </div>
+                                <div class="card-body">
+                                    <input type="file" name="nameBuktiTransfer" id="idContentUpload" value="" class="form-control" accept="image/*">
+                                </div>
+                            </div>
+
+                            
+                            <div class="card">
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                        <div class="col-md-4" id="previewImage">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Preview Bukti transfer -->
+
+                        <div class="card">
+                            <div class="card-header">
+                              Cara Pembayaran
+                            </div>
+                            <div class="card-body">
+                                <div class="card mb-3" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                      <div class="col-md-4">
+                                        <img src="../../asset/image/bca.png" class="img-fluid rounded-start mt-5" alt="...">
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card-body">
+                                          <h5 class="card-title">6320226269</h5>
+                                          <p class="card-text">SABAR RANTO</p>
+                                          <p class="card-text"><small class="text-muted">Bank Central Asia</small></p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                          </div>
+
+                        <button type="submit" class="btn btn-primary mt-3">Booking</button>
+                </form>
+
+        </div>
+    </div>
+    <!-- End of Booking Form -->
+    
+    
+    <!-- End of Content -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

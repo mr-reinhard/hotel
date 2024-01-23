@@ -146,8 +146,9 @@ switch ($_GET['aksi']) {
 
     case 'loadListKamar':
         # code...
+        $no = 1;
         $idNamaKamar = $_POST['idPilihKamar'];
-        $sql = "SELECT * FROM vw_kamar WHERE id_namaKamar LIKE '%".$idNamaKamar."%'";
+        $sql = "SELECT * FROM vw_kamar WHERE id_namaKamar LIKE '%".$idNamaKamar."%' ORDER BY nomor_kamar ASC";
 
         $runSql = mysqli_query($koneksi, $sql);
 
@@ -160,11 +161,11 @@ switch ($_GET['aksi']) {
 
             echo "<tr>
             <th scope='row'>
-            $Kamar
+            $no
             </th>
 
             <td>
-            $Lantai
+            $Kamar
             </td>
 
             <td>
@@ -181,6 +182,7 @@ switch ($_GET['aksi']) {
                 </button>
             </td>
         </tr>";
+        $no++;
         }
         break;
     

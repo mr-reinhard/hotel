@@ -6,11 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="asset/image/logo_din.png">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,500i,600,600i,700,700i&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="asset/css/animate.css">
     <link rel="stylesheet" href="asset/css/owl.carousel.min.css">
@@ -102,7 +99,7 @@
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="modul/customer/index.php" class="nav-link">Pesan</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Pesan</a></li>
                     <li class="nav-item"><a href="modul/page/room.html" class="nav-link">Kamar</a></li>
                     <li class="nav-item"><a href="modul/page/contact_us.html" class="nav-link">Contact</a></li>
                 </ul>
@@ -122,7 +119,7 @@
                     <!-- <h2 class="subheading">Welcome to Hotel Danau Indah Utama</h2> -->
                     <!-- <h1 class="mb-4">Danau Indah Utama</h1> -->
                     <p>
-                        <a href="modul/customer/index.php" class="btn btn-primary">Booking</a>
+                        <a href="#" class="btn btn-primary">Booking</a>
                         <a href="https://api.whatsapp.com/send?phone=6285219135630" class="btn btn-white">Hubungi Kami</a>
                     </p>
                 </div>
@@ -268,15 +265,10 @@
     </section>
 
     <!-- Room List -->
-    <section class="ftco-section bg-light">
+    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
         <div class="container-fluid px-md-0">
-            <div class="row no-gutters justify-content-center pb-5 mb-3">
-                <div class="col-md-7 heading-section text-center ftco-animate">
-                    <h2>Room</h2>
-                </div>
-            </div>
-
             <div class="row no-gutters">
+
                 <div class="col-lg-6">
                     <div class="room-wrap d-md-flex">
                         <a href="#" class="img" style="background-image: url(asset/image/melati_1.jpeg);"></a>
@@ -285,19 +277,30 @@
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span></p>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 210.000</span>
+                                    <span class="per">Weekday</span>
+                                </p>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 250.000</span>
+                                    <span class="per">Weekend</span>
+                                </p>
 
-                                <h3 class="mb-3"><a href="rooms.html">Melati</a></h3>
+                                <h3 class="mb-3"><a href="#">Standard</a></h3>
+
                                 <ul class="list-accomodation">
-                                    <li><span>Max:</span> 2 Orang</li>
-                                    <!-- <li><span>Size:</span> 45 m2</li> -->
-                                    <!-- <li><span>View:</span> Sea View</li> -->
+                                    <li><span>Max:</span> 2 Persons</li>
+                                    <!-- <li><span>Size:</span> 45 m2</li>
+                                    <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <!-- <p class="pt-1">
-                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat
+
+                                <p class="pt-1">
+                                    <a href="modul/page/bk_standard.html" class="btn-custom px-3 py-2">Booking
                                         <span class="icon-long-arrow-right"></span>
                                     </a>
-                                </p> -->
+                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -311,19 +314,28 @@
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span></p>
-
-                                <h3 class="mb-3"><a href="rooms.html">Anggrek</a></h3>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 230.000</span>
+                                    <span class="per">Weekday</span>
+                                </p>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 270.000</span>
+                                    <span class="per">Weekend</span>
+                                </p>
+                                <h3 class="mb-3"><a href="#">Deluxe</a></h3>
                                 <ul class="list-accomodation">
-                                    <li><span>Max:</span> 2 Orang</li>
+                                    <li><span>Max:</span> 2 Persons</li>
                                     <!-- <li><span>Size:</span> 45 m2</li>
                                     <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <!-- <p class="pt-1">
-                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat
+
+                                <p class="pt-1">
+                                    <a href="modul/page/bk_deluxe.html" class="btn-custom px-3 py-2">Booking
                                         <span class="icon-long-arrow-right"></span>
                                     </a>
-                                </p> -->
+                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -337,19 +349,28 @@
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span></p>
-
-                                <h3 class="mb-3"><a href="rooms.html">VIP</a></h3>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 260.000</span>
+                                    <span class="per">Weekday</span>
+                                </p>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 320.000</span>
+                                    <span class="per">Weekend</span>
+                                </p>
+                                <h3 class="mb-3"><a href="#">Superior</a></h3>
                                 <ul class="list-accomodation">
                                     <li><span>Max:</span> 2 Persons</li>
                                     <!-- <li><span>Size:</span> 45 m2</li>
                                     <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <!-- <p class="pt-1">
-                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat 
+
+                                <p class="pt-1">
+                                    <a href="modul/page/bk_superior.html" class="btn-custom px-3 py-2">Booking
                                         <span class="icon-long-arrow-right"></span>
                                     </a>
-                                </p> -->
+                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -363,23 +384,32 @@
                                 <p class="star mb-0"><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span><span
                                         class="fa fa-star"></span><span class="fa fa-star"></span></p>
-
-                                <h3 class="mb-3"><a href="rooms.html">Family</a></h3>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 260.000</span>
+                                    <span class="per">Weekday</span>
+                                </p>
+                                <p class="mb-0">
+                                    <span class="price mr-1">Rp. 320.000</span>
+                                    <span class="per">Weekend</span>
+                                </p>
+                                <h3 class="mb-3"><a href="#">Family Room</a></h3>
                                 <ul class="list-accomodation">
-                                    <li><span>Max:</span> 3 Persons</li>
+                                    <li><span>Max:</span> 2 Persons</li>
                                     <!-- <li><span>Size:</span> 45 m2</li>
                                     <li><span>View:</span> Sea View</li> -->
                                     <li><span>Bed:</span> 1</li>
                                 </ul>
-                                <!-- <p class="pt-1">
-                                    <a href="room-single.html" class="btn-custom px-3 py-2">Lihat
+
+                                <p class="pt-1">
+                                    <a href="modul/page/bk_family.html" class="btn-custom px-3 py-2">Booking
                                         <span class="icon-long-arrow-right"></span>
                                     </a>
-                                </p> -->
+                                </p>
+
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>  
 
             </div>
         </div>
@@ -578,7 +608,7 @@
                     <p class="mb-4">
                         Sangan aman untuk melakukan booking online, silahkan order sekarang
                     </p>
-                    <p class="mb-0"><a href="modul/customer/index.php" class="btn btn-primary px-4 py-3">Booking</a>
+                    <p class="mb-0"><a href="#" class="btn btn-primary px-4 py-3">Booking</a>
                         <a href="https://api.whatsapp.com/send?phone=6285219135630" class="btn btn-white px-4 py-3">Hubungi Kami</a>
                     </p>
                 </div>

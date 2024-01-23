@@ -56,8 +56,8 @@ include '../../koneksi/koneksi.php';
 
                 <thead>
                     <tr>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Lantai</th>
+                        <th scope="col">No</th>
+                        <th scope="col">Kamar</th>
                         <th scope="col">Nomor</th>
                         <th scope="col">Aksi</th>
                     </tr>
