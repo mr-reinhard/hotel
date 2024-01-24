@@ -239,6 +239,32 @@
                 })
             });
 
+            // Simpan edit kamar
+            $("#contentAdmin").on("submit", "#idFormEditKamar", function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Data kamar sudah benar?',
+                    text: "Mohon di check ulang sebelum menyimpan data!",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Simpan'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '../koneksi/service.php?aksi=simpanEditKamar',
+                            type: 'post',
+                            data: $(this).serialize(),
+                            success: function (data) {
+                                load_listKamar();
+                                kamarBerhasilDiupdate();
+                            }
+                        });
+                    }
+                })
+            });
+
             // buka form approve verif
             $("#contentAdmin").on("click", "#idBtn_formVerif", function () {
                 var idBooking = $(this).attr("value");
@@ -279,6 +305,22 @@
                     method: "GET",
                     data: {
                         id_booking: idBooking
+                    },
+                    dataType: "text",
+                    success: function (data) {
+                        $('#contentAdmin').html(data);
+                    }
+                });
+            });
+
+            // buka form edit kamar
+            $("#contentAdmin").on("click", "#idBtn_editKamar", function () {
+                var idkamar = $(this).attr("value");
+                $.ajax({
+                    url: "kamar/edit_kamar.php",
+                    method: "GET",
+                    data: {
+                        idBtn_editKamar: idkamar
                     },
                     dataType: "text",
                     success: function (data) {

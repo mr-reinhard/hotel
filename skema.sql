@@ -14,6 +14,7 @@ tbCust.id_customer = tbCustDetails.id_customer
 CREATE VIEW vw_kamar AS SELECT
 tbKamar.id_kamar,
 tbKamar.id_namaKamar,
+tbNomorLantai.id_nomorLantai,
 tbNamaKamar.namaKamar,
 tbNomorLantai.nomorLantai,
 tbKamar.nomor_kamar,

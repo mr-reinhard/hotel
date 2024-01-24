@@ -173,7 +173,7 @@ switch ($_GET['aksi']) {
             </td>
 
             <td>
-                <button type='button' id='' class='btn btn-warning' value='$idKamar' title='Edit' name='button'>
+                <button type='button' id='idBtn_editKamar' class='btn btn-warning' value='$idKamar' title='Edit' name='button'>
                     <i class='fa-solid fa-pen-to-square'></i>
                 </button>
 
@@ -184,6 +184,45 @@ switch ($_GET['aksi']) {
         </tr>";
         $no++;
         }
+        break;
+
+    case 'simpanEditKamar':
+        # code...
+
+        # ID
+        $idKamar = $_POST['nameIdKamar'];
+        $id_namaKamar = $_POST['nameIdNamaKamar'];
+
+        # INPUT
+        $nomorKamar = $_POST['nameNomorKamar'];
+        $namaKamar = $_POST['nameNamaKamar'];
+        
+
+        $sqlKamar = "UPDATE tbl_kamar SET nomor_kamar = '$nomorKamar' WHERE id_kamar LIKE '%".$idKamar."%'";
+        $sqlNamaKamar = "UPDATE tbl_nama_kamar SET namaKamar = '$namaKamar' WHERE id_namaKamar LIKE '%".$id_namaKamar."%'";
+        
+
+        $run1 = mysqli_query($koneksi,$sqlNamaKamar);
+        $run3 = mysqli_query($koneksi,$sqlKamar);
+
+        break;
+
+    case 'loadGambar':
+        # code...
+        $idBooking = $_POST['kB'];
+
+        $query = "SELECT * FROM tbl_bukti_transfer WHERE id_booking LIKE '%".$idBooking."%'";
+        $run = mysqli_query($koneksi,$query);
+        $fetchArr = mysqli_fetch_array($run);
+
+        if (mysqli_num_rows($run) > 0) {
+            # code...
+            echo $fetchArr['gambar_upload'];
+        }
+        else{
+            echo "gambartidakada";
+        }
+
         break;
     
     default:
