@@ -210,17 +210,46 @@
         });
 
         // Error Handling Form Booking
-        function cekDanSimpan(){
+function cekDanSimpan(){
 
+            var Nama = $("idNamaLengkap").val();
+            var tanggalChekin = $("#datePickerCheckIn").val();
+            var tanggalChekot = $("#datePickerCheckOut").val();
+            var nomorTelfon = $("#idTelfon").val();
+            var catatanBook = $("#idCatatan").val();
             var pilihPembayaran = $("#idJenisPembayaran").val();
             var nilaiUpload = $("#idContentUpload").val();
 
-            if (pilihPembayaran === "JP2" && nilaiUpload === "") {
-                UploadError();
+            if (Nama === "") {
+                lengkapiData();
             }
             else{
-                // panggil fungsi simpan data
-                simpanData();
+                if (tanggalChekin === "") {
+                    lengkapiData();
+                }
+                else{
+                    if (tanggalChekot === "") {
+                        lengkapiData();
+                    }
+                    else{
+                        if (nomorTelfon === "") {
+                            lengkapiData();
+                        }
+                        else{
+                            if (catatanBook === "") {
+                                lengkapiData();
+                            }
+                            else{
+                                if (pilihPembayaran === "JP2" && nilaiUpload === "") {
+                                    UploadError();
+                                }
+                                else{
+                                    simpanData();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -260,6 +289,89 @@
                     }
                 })
             });
+
+            // handle spasi awal saja
+            function handleSpasiAwal() {
+
+                var catatanBooking = $("#idCatatan").val();
+
+                if (catatanBooking.charAt(0) == ' ') {
+                    $("#idCatatan").val("");
+                    karakterTidakValid();
+                }
+            }
+
+            // Handle Full Spasi
+            function handleFullSpasi() {
+
+                var allowCharEmail = /[^a-zA-Z0-9_.\-@]/gi;
+                var inputMail = $("#idEmail").val();
+
+                if (inputMail.match(allowCharEmail)) {
+                    var bersihkanValue = inputMail.replace(allowCharEmail, "");
+                    $("#idEmail").val(bersihkanValue);
+                    karakterTidakValid();
+                }
+                else {
+                    $("#idEmail").val(inputMail);
+                }
+            }
+
+            // fungsi filter karakter dan spasi di awal
+            function karakterAZ() {
+
+                var allowedChar = /[^\sa-zA-Z]/gi;
+                var inputNama = $("#idNamaLengkap").val();
+
+                if (inputNama.charAt(0) == ' ') {
+                    $("#idNamaLengkap").val("");
+                    karakterTidakValid();
+                }
+                else {
+                    if (inputNama.match(allowedChar)) {
+                        var bersihkanKarakter = inputNama.replace(allowedChar, "");
+                        $("#idNamaLengkap").val(bersihkanKarakter)
+                        karakterTidakValid();
+                    }
+                    else {
+                        $(inputNama).val(inputNama);
+                    }
+                }
+
+            }
+
+            // Hanya karakter numerik saja
+            function karakterNumerik() {
+                var AllowChar = /[^0-9]/gi;
+                var inputTelfon = $("#idTelfon").val();
+
+                if (inputTelfon.match(AllowChar)) {
+                    var resetValue = inputTelfon.replace(AllowChar, "");
+                    $("#idTelfon").val(resetValue);
+                    karakterTidakValid();
+                }
+                else {
+                    $(inputTelfon).val(inputTelfon);
+                }
+
+
+            }
+
+            $("#idEmail").on("input", function () {
+                handleFullSpasi();
+            })
+
+            $("#idNamaLengkap").on("input", function () {
+                karakterAZ();
+            })
+
+            $("#idTelfon").on("input", function () {
+                karakterNumerik();
+            })
+
+            $("#idCatatan").on("input", function () {
+                handleSpasiAwal();
+            })
 
         })// end of jquery
     </script>
@@ -417,7 +529,7 @@
                         <div class="mb-3">
                             <label for="idNamaLengkap" class="form-label">Nama Lengkap</label>
                             <input type="text" class="form-control" id="idNamaLengkap"
-                                aria-describedby="emailHelp" name="nameNamaCustomer" required>
+                                aria-describedby="emailHelp" name="nameNamaCustomer">
                             <div id="emailHelp" class="form-text">Isi nama lengkap pemesan.</div>
                         </div>
 
@@ -436,13 +548,13 @@
                         <div class="mb-3">
                             <label for="idTelfon" class="form-label">Telfon</label>
                             <input type="text" class="form-control" id="idTelfon"
-                                aria-describedby="emailHelp" name="nameTelfonCustomer" required>
+                                aria-describedby="emailHelp" name="nameTelfonCustomer">
                             <div id="emailHelp" class="form-text">Isi nomor yang dapat dihubungi.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="idJenisPembayaran">Jenis Pembayaran</label>
-                            <select name="nameSelectJenisPembayaran" id="idJenisPembayaran" class="form-select" required>
+                            <select name="nameSelectJenisPembayaran" id="idJenisPembayaran" class="form-select">
                                 <option value="JP1">Cash</option>
                                 <option value="JP2">Non Tunai</option>
                             </select>
@@ -450,7 +562,7 @@
 
                         <div class="mb-3">
                             <label for="idCatatan" class="form-label">Catatan</label>
-                            <textarea name="nameCatatanCustomer" id="" cols="30" rows="3" class="form-control" placeholder="Contoh, Pembayaran atas nama Mr/Mrs/Ms John atau Jane" required></textarea>
+                            <textarea name="nameCatatanCustomer" id="idCatatan" cols="30" rows="3" class="form-control" placeholder="Contoh, Pembayaran atas nama Mr/Mrs/Ms John atau Jane"></textarea>
                             <div id="idCatatanp" class="form-text">Tambahan informasi, kosongkan jika tidak perlu.</div>
                         </div>
 
