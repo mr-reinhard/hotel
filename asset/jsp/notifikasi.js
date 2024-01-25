@@ -172,6 +172,25 @@ function kamarBerhasilDiupdate() {
       });
 }
 
+function karakterTidakValid() {
+    
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Karakter tidak valid"
+      });
+}
+
 function tanggalTidakValid() {
     Swal.fire({
         title: "Tanggal tidak valid",
@@ -208,6 +227,14 @@ function koneksiTerputus() {
     Swal.fire({
         title: "Koneksi terputus",
         text: "Cek Koneksi internet anda",
+        icon: "error"
+      });
+}
+
+function lengkapiData() {
+    Swal.fire({
+        title: "Data belum lengkap",
+        text: "Cek kembali data anda",
         icon: "error"
       });
 }
