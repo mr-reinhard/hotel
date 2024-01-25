@@ -39,16 +39,8 @@ include 'fungsi.php';
         return $output_id;
     }
 
-    function fnTestUpload(){
-        $fileName = $_FILES['nameBuktiTransfer']['name'];
-        $tempName = $_FILES['nameBuktiTransfer']['tmp_name'];
-        $folder = "upload/" . $fileName;
-
-        move_uploaded_file($tempName, $folder);
-    }
-
     function uploadGambar(){
-        $namaFile = $_FILES['nameBuktiTransfer']['name']; //undefined index
+        $namaFile = $_FILES['nameBuktiTransfer']['name'];
         $ukuranFile = $_FILES['nameBuktiTransfer']['size'];
         $pesanError = $_FILES['nameBuktiTransfer']['error'];
         $tmpName = $_FILES['nameBuktiTransfer']['tmp_name'];
