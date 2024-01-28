@@ -43,7 +43,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             url: 'modul/koneksi/service_customer.php?aksi=simpanComment',
-                            type: 'post',
+                            type: 'POST',
                             data: $(this).serialize(),
                             success: function (data) {
                                 $("#idIsiNama").val("");
@@ -119,7 +119,7 @@
                     <!-- <h2 class="subheading">Welcome to Hotel Danau Indah Utama</h2> -->
                     <!-- <h1 class="mb-4">Danau Indah Utama</h1> -->
                     <p>
-                        <a href="#" class="btn btn-primary">Booking</a>
+                        <a href="#idRoomList" class="btn btn-primary">Booking</a>
                         <a href="https://api.whatsapp.com/send?phone=6285219135630" class="btn btn-white">Hubungi Kami</a>
                     </p>
                 </div>
@@ -265,7 +265,7 @@
     </section>
 
     <!-- Room List -->
-    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb" id="idRoomList">
         <div class="container-fluid px-md-0">
             <div class="row no-gutters">
 
@@ -785,8 +785,6 @@
                     <div class="col-md-6 col-lg-8">
                         <p class="copyright mb-0">
                             Copyright &copy;
-                            <script data-cfasync="false"
-                                src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
                             <script>document.write(new Date().getFullYear());</script> All rights reserved
                             <a href="#">Danau Indah Utama</a>
                         </p>

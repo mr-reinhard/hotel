@@ -381,6 +381,10 @@ switch ($_GET['aksi']) {
         $waktu = date('H:i:s');
         echo json_encode($waktu);
         break;
+
+    case 'testKoneksi':
+        # code...
+        break;
     
     default:
         # code...
